@@ -1,0 +1,331 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>VYOMA Dashboard - District Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#e5e2e1",
+                        "error-red": "#ef4444",
+                        "secondary-fixed-dim": "#c6c6cf",
+                        "surface-tint": "#c6c6c7",
+                        "surface-container": "#201f1f",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#b4b4bd",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-primary-container": "#636565",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-variant": "#353434",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-error-container": "#ffdad6",
+                        "background": "#141313",
+                        "surface-container-highest": "#353434",
+                        "on-secondary-fixed": "#1a1b22",
+                        "secondary-container": "#45464e",
+                        "warning-amber": "#f59e0b",
+                        "surface": "#141313",
+                        "secondary-fixed": "#e2e1eb",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary": "#ffffff",
+                        "surface-raised": "#171717",
+                        "on-secondary": "#2f3037",
+                        "primary-container": "#e2e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "tertiary-container": "#e2e2e2",
+                        "outline": "#8e9192",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-background": "#e5e2e1",
+                        "inverse-on-surface": "#313030",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#636565",
+                        "outline-variant": "#444748",
+                        "on-surface-variant": "#c4c7c8",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-base": "#0a0a0a",
+                        "surface-container-high": "#2a2a2a",
+                        "error": "#ffb4ab",
+                        "secondary": "#c6c6cf",
+                        "on-secondary-fixed-variant": "#45464e",
+                        "surface-bright": "#3a3939",
+                        "accent-blue": "#3b82f6",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary": "#2f3131",
+                        "on-primary": "#2f3131",
+                        "surface-lowest": "#000000",
+                        "surface-container-lowest": "#0e0e0e",
+                        "success-green": "#22c55e",
+                        "surface-dim": "#141313",
+                        "inverse-primary": "#5d5f5f",
+                        "border-subtle": "#262626"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "stack-lg": "32px",
+                        "space-unit": "4px",
+                        "stack-md": "16px",
+                        "margin-page": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; color: #e5e2e1; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-[#0F1115] text-on-surface h-screen overflow-hidden flex font-body-md">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container flex flex-col h-screen fixed left-0 top-0 z-40 border-r border-border-subtle docked left-0 h-full w-64">
+<!-- Header -->
+<div class="p-gutter border-b border-border-subtle flex items-center gap-3">
+<div class="w-8 h-8 rounded-DEFAULT bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-lowest font-bold text-lg icon-fill" data-icon="explore">explore</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-black text-primary">VYOMA GIS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Operational Suite</p>
+</div>
+</div>
+<!-- Main Nav Links -->
+<div class="flex-1 overflow-y-auto py-stack-md px-stack-sm flex flex-col gap-space-unit">
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant rounded-DEFAULT font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+                Hazard Map
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant rounded-DEFAULT font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="home_pin">home_pin</span>
+                Habitations
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant rounded-DEFAULT font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+                Relocation Priority
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant rounded-DEFAULT font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+                Relocation Sites
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant rounded-DEFAULT font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Analytics
+            </a>
+</div>
+<!-- Footer Links -->
+<div class="p-stack-sm border-t border-border-subtle flex flex-col gap-space-unit">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant rounded-DEFAULT font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Help
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant rounded-DEFAULT font-label-md text-label-md transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Logout
+            </a>
+</div>
+</nav>
+<!-- Main Layout Area (offset for side nav) -->
+<div class="flex-1 ml-64 flex flex-col h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface font-body-md text-body-md flex justify-between items-center w-full px-gutter h-16 border-b border-border-subtle z-30 docked full-width top-0">
+<!-- Search / Brand Area (left) -->
+<div class="flex items-center gap-6">
+<!-- Selectors instead of nav links for this specific view -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 bg-surface-base border border-border-subtle rounded px-3 py-1.5 hover:bg-surface-container transition-colors cursor-pointer">
+<span class="font-label-md text-label-md text-on-surface">State: Select State</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-base border border-border-subtle rounded px-3 py-1.5 hover:bg-surface-container transition-colors cursor-pointer">
+<span class="font-label-md text-label-md text-on-surface">District: Select District</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-DEFAULT hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-DEFAULT hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-border-subtle overflow-hidden ml-2 cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A minimalist, highly professional avatar illustration. A subtle geometric shape in cool gray tones against a dark charcoal background. High contrast, clean vector style, developer tool aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4mMRu-wg8rPgnmhYa2OXibt1A0SQy4OkTuDQS5OPE6079trdrcWSzOd4bE2PckNSgIxPxAjcOGU82esfqyw_EtPTYY30AizDP2SRdBjzVou67YVm54kUXZb8JJ5nxjBB2p2A9QMa0ZV0kRLIdVqbj6OxBgm81mEer6z8VlZAkQ5xYxw5FQstILmFc4Rx3LhtL-uDkn9fOIBkIxbedTmXX6MWS5u8WCSYSz4z_FOHto_lKrceKpEEyiQ">
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-page flex flex-col gap-stack-lg bg-surface-lowest">
+<!-- 1. Header Section -->
+<div class="flex items-end justify-between border-b border-border-subtle pb-stack-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">District Overview</h2>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Selected State / Selected District</p>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant bg-surface-base px-3 py-1 border border-border-subtle rounded-DEFAULT">
+<span class="material-symbols-outlined text-[14px]" data-icon="sync">sync</span>
+<span class="font-label-sm text-label-sm">Last updated: 14:30</span>
+</div>
+</div>
+<!-- 2. Metrics Row -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-gutter"><div class="bg-[#161A20] border border-border-subtle p-3 flex flex-col"><span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Critical Habitations</span><div class="flex items-baseline gap-2"><span class="text-2xl font-bold text-error-red">12</span><span class="text-[10px] text-on-surface-variant">3 immediate</span></div></div><div class="bg-[#161A20] border border-border-subtle p-3 flex flex-col"><span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">High-Risk</span><div class="flex items-baseline gap-2"><span class="text-2xl font-bold text-warning-amber">48</span><span class="text-[10px] text-on-surface-variant">+2 this week</span></div></div><div class="bg-[#161A20] border border-border-subtle p-3 flex flex-col"><span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Immediate Relocation</span><div class="flex items-baseline gap-2"><span class="text-2xl font-bold text-error-red">1,420</span><span class="text-[10px] text-on-surface-variant">pax</span></div></div><div class="bg-[#161A20] border border-border-subtle p-3 flex flex-col"><span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Suitable Sites</span><div class="flex items-baseline gap-2"><span class="text-2xl font-bold text-success-green">08</span><span class="text-[10px] text-on-surface-variant">verified</span></div></div><div class="bg-[#161A20] border border-border-subtle p-3 flex flex-col"><span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Population at Risk</span><div class="flex items-baseline gap-2"><span class="text-2xl font-bold text-accent-blue">8.4k</span><span class="text-[10px] text-on-surface-variant">total</span></div></div></div>
+<!-- 3 & 4. Map and Side Panel Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter h-[600px]">
+<!-- GIS Map (Centerpiece - takes 3 cols) -->
+<div class="lg:col-span-3 bg-surface-base border border-border-subtle rounded-DEFAULT relative overflow-hidden flex flex-col">
+<!-- Map Header / Controls -->
+<div class="absolute top-4 left-4 z-10 flex gap-2">
+<div class="bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-DEFAULT p-2 flex gap-2 shadow-xl">
+<button class="px-3 py-1 bg-surface-raised border border-border-subtle rounded font-label-sm text-label-sm text-primary hover:bg-surface-container transition-colors flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error-red"></div>
+                                Red Zones
+                            </button>
+<button class="px-3 py-1 bg-surface-lowest border border-border-subtle rounded font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container transition-colors flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-accent-blue"></div>
+                                Flood Risk
+                            </button>
+<button class="px-3 py-1 bg-surface-lowest border border-border-subtle rounded font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container transition-colors flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-warning-amber"></div>
+                                Landslide
+                            </button>
+</div>
+</div><div class="absolute top-4 right-4 z-10 flex flex-col gap-2"><div class="bg-[#161A20] border border-border-subtle rounded flex flex-col shadow-xl"><button class="p-2 hover:bg-surface-variant text-on-surface-variant border-b border-border-subtle"><span class="material-symbols-outlined text-[18px]">add</span></button><button class="p-2 hover:bg-surface-variant text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">remove</span></button></div><button class="bg-[#161A20] border border-border-subtle rounded p-2 shadow-xl text-on-surface-variant hover:bg-surface-variant"><span class="material-symbols-outlined text-[18px]">layers</span></button><button class="bg-[#161A20] border border-border-subtle rounded p-2 shadow-xl text-on-surface-variant hover:bg-surface-variant"><span class="material-symbols-outlined text-[18px]">search</span></button></div>
+<!-- Map Legend -->
+<div class="absolute bottom-4 right-4 z-10 bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-DEFAULT p-3 shadow-xl">
+<h4 class="font-label-sm text-label-sm text-on-surface mb-2 uppercase tracking-wide">Legend</h4>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-error-red/40 border border-error-red rounded-sm"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Critical Zone</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-warning-amber" data-icon="home_pin">home_pin</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vulnerable Habitation</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-success-green" data-icon="location_on">location_on</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Relocation Site</span>
+</div>
+</div>
+</div>
+<!-- Map Image Area -->
+<div class="w-full h-full relative" data-location="Idukki">
+<div class="bg-cover bg-center w-full h-full opacity-80" data-alt="A highly detailed, dark-mode topological GIS map of a mountainous region. The aesthetic is strictly professional developer tool, using deep charcoals, pure blacks, and subtle gray contour lines. Semi-transparent bright red polygon overlays indicate hazard zones. Tiny, precise geometric markers in amber and teal indicate habitation and relocation sites. No text labels, pure technical cartography." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB0vGMxF6_hJ_M6aRq0KRVixWw5kGUu_IbOuzrhV176JSQH0wP2ZIB5xL0GsoEwEYMUBT05-x-r6GbLZKya8-jNQHCuXtENyszlvFOcrSnVBSS61q64pAOsiUjBI6HFSy4q0IJAplFZzMlBIlgIQjiGWiurKafNBH2TwOEUN1mPqaVLb8A2-65YFb4KfqcEgZOOU39R9OfYFqt24i2DRLUhh5IQqSKW6GUP1UoxmEVQrFbPLJnGosdwRQ')"></div>
+<!-- Interactive Popup Overlay -->
+
+</div>
+</div>
+<!-- Side Panel (Critical Habitations) -->
+<div class="bg-surface-base border border-border-subtle rounded-DEFAULT flex flex-col h-full overflow-hidden">
+<div class="p-4 border-b border-border-subtle bg-surface-raised">
+<h3 class="font-body-lg text-body-lg font-medium text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-error-red" data-icon="warning">warning</span>
+                            Critical Habitations
+                        </h3>
+</div>
+<div class="flex-1 overflow-y-auto">
+<table class="w-full text-left font-label-md text-label-md"><thead class="sticky top-0 bg-[#161A20] border-b border-border-subtle text-on-surface-variant text-[10px] uppercase tracking-wider"><tr><th class="px-3 py-2 font-medium">Village</th><th class="px-3 py-2 font-medium text-center">Score</th><th class="px-3 py-2 font-medium text-right">Pop.</th></tr></thead><tbody class="divide-y divide-border-subtle"> <tr class="hover:bg-surface-variant transition-colors cursor-pointer"><td class="px-3 py-2 text-primary">Village A</td><td class="px-3 py-2 text-center text-error-red font-bold">91</td><td class="px-3 py-2 text-right">1,240</td></tr><tr class="hover:bg-surface-variant transition-colors cursor-pointer"><td class="px-3 py-2 text-primary">Settlement B</td><td class="px-3 py-2 text-center text-error-red font-bold">87</td><td class="px-3 py-2 text-right">850</td></tr><tr class="hover:bg-surface-variant transition-colors cursor-pointer"><td class="px-3 py-2 text-primary">Hamlet C</td><td class="px-3 py-2 text-center text-warning-amber font-bold">82</td><td class="px-3 py-2 text-right">420</td></tr><tr class="hover:bg-surface-variant transition-colors cursor-pointer"><td class="px-3 py-2 text-primary">Village D</td><td class="px-3 py-2 text-center text-warning-amber font-bold">78</td><td class="px-3 py-2 text-right">2,100</td></tr><tr class="hover:bg-surface-variant transition-colors cursor-pointer"><td class="px-3 py-2 text-primary">Colony E</td><td class="px-3 py-2 text-center text-warning-amber font-bold">75</td><td class="px-3 py-2 text-right">340</td></tr><tr class="hover:bg-surface-variant transition-colors cursor-pointer"><td class="px-3 py-2 text-primary">Village F</td><td class="px-3 py-2 text-center text-warning-amber font-bold">71</td><td class="px-3 py-2 text-right">980</td></tr></tbody></table>
+</div>
+</div>
+</div>
+<!-- 5. Bottom Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter pb-margin-page">
+<!-- Relocation Priority -->
+<div class="border border-border-subtle rounded-DEFAULT p-4 bg-[#161A20]">
+<h3 class="font-body-lg text-body-lg font-medium text-primary mb-4 border-b border-border-subtle pb-2">Relocation Priority Summary</h3>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-surface-raised border border-border-subtle rounded p-3 flex flex-col items-center justify-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Immediate</span>
+<span class="font-headline-lg text-headline-lg text-error-red">12</span>
+</div>
+<div class="bg-surface-raised border border-border-subtle rounded p-3 flex flex-col items-center justify-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Short-term</span>
+<span class="font-headline-lg text-headline-lg text-warning-amber">34</span>
+</div>
+<div class="bg-surface-raised border border-border-subtle rounded p-3 flex flex-col items-center justify-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Med-term</span>
+<span class="font-headline-lg text-headline-lg text-accent-blue">89</span>
+</div>
+</div>
+</div>
+<!-- Relocation Capacity -->
+<div class="border border-border-subtle rounded-DEFAULT p-4 bg-[#161A20]">
+<h3 class="font-body-lg text-body-lg font-medium text-primary mb-4 border-b border-border-subtle pb-2">Relocation Site Capacity</h3>
+<div class="flex flex-col gap-4 font-label-md text-label-md">
+<!-- Site R-17 -->
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-primary">Site R-17 (High Suitability)</span>
+<span class="text-on-surface-variant">53%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden border border-border-subtle">
+<div class="bg-success-green h-2 rounded-full" style="width: 53%"></div>
+</div>
+</div>
+<!-- Site R-08 -->
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-primary">Site R-08 (Medium Suitability)</span>
+<span class="text-on-surface-variant">72%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden border border-border-subtle">
+<div class="bg-warning-amber h-2 rounded-full" style="width: 72%"></div>
+</div>
+</div>
+<!-- Site R-22 -->
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-primary">Site R-22 (Under Dev)</span>
+<span class="text-on-surface-variant">15%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden border border-border-subtle">
+<div class="bg-accent-blue h-2 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+</body></html>

@@ -1,0 +1,663 @@
+[
+  {
+    "id": "HAB-001",
+    "name": "Kunchithanny",
+    "block": "Udumbanchola",
+    "village": "Kunchithanny",
+    "coordinates": {
+      "lat": 9.8312,
+      "lng": 77.1548
+    },
+    "population": 1240,
+    "households": 285,
+    "risk_score": 91,
+    "risk_level": "critical",
+    "priority": "immediate",
+    "hazard_types": [
+      "landslide",
+      "flood"
+    ],
+    "hazard_exposure": {
+      "landslide": 88,
+      "flood": 72,
+      "earthquake": 15,
+      "cyclone": 0
+    },
+    "vulnerability_factors": [
+      "Steep slope with unstable soil",
+      "Proximity to active landslide zone",
+      "No access road for emergency vehicles",
+      "Riverbank erosion within 50m"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-07-15",
+        "hazard_type": "landslide",
+        "severity": "critical",
+        "description": "Major landslide blocked access road"
+      },
+      {
+        "date": "2023-08-22",
+        "hazard_type": "flood",
+        "severity": "high",
+        "description": "Flash flood inundated 40% area"
+      },
+      {
+        "date": "2022-10-10",
+        "hazard_type": "landslide",
+        "severity": "medium",
+        "description": "Minor slope failure"
+      }
+    ],
+    "recommended_site_id": "SITE-01",
+    "recommended_site_name": "Nedumkandam Relief Camp",
+    "recommended_site_suitability": 87,
+    "recommended_site_capacity": 2400
+  },
+  {
+    "id": "HAB-002",
+    "name": "Edamalakudy",
+    "block": "Udumbanchola",
+    "village": "Edamalakudy",
+    "coordinates": {
+      "lat": 9.8105,
+      "lng": 77.129
+    },
+    "population": 850,
+    "households": 195,
+    "risk_score": 87,
+    "risk_level": "critical",
+    "priority": "immediate",
+    "hazard_types": [
+      "landslide"
+    ],
+    "hazard_exposure": {
+      "landslide": 92,
+      "flood": 30,
+      "earthquake": 10,
+      "cyclone": 0
+    },
+    "vulnerability_factors": [
+      "Isolated hilltop settlement",
+      "Continuous slope instability",
+      "No medical facility within 15km"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-06-30",
+        "hazard_type": "landslide",
+        "severity": "critical",
+        "description": "Road severed 3-day supply cut-off"
+      },
+      {
+        "date": "2023-07-18",
+        "hazard_type": "landslide",
+        "severity": "high",
+        "description": "Two homes partially buried"
+      }
+    ],
+    "recommended_site_id": "SITE-01",
+    "recommended_site_name": "Nedumkandam Relief Camp",
+    "recommended_site_suitability": 82,
+    "recommended_site_capacity": 2400
+  },
+  {
+    "id": "HAB-003",
+    "name": "Vagapparai",
+    "block": "Devikulam",
+    "village": "Vagapparai",
+    "coordinates": {
+      "lat": 9.942,
+      "lng": 77.2015
+    },
+    "population": 420,
+    "households": 98,
+    "risk_score": 82,
+    "risk_level": "high",
+    "priority": "short-term",
+    "hazard_types": [
+      "flood",
+      "landslide"
+    ],
+    "hazard_exposure": {
+      "landslide": 65,
+      "flood": 78,
+      "earthquake": 20,
+      "cyclone": 0
+    },
+    "vulnerability_factors": [
+      "Low-lying area adjacent to stream",
+      "Soil saturation above threshold",
+      "Aging infrastructure"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-07-20",
+        "hazard_type": "flood",
+        "severity": "high",
+        "description": "Stream overflowed 12 homes waterlogged"
+      }
+    ],
+    "recommended_site_id": "SITE-03",
+    "recommended_site_name": "Kumily Transit Center",
+    "recommended_site_suitability": 71,
+    "recommended_site_capacity": 1800
+  },
+  {
+    "id": "HAB-004",
+    "name": "Panchali Medu",
+    "block": "Idukki",
+    "village": "Panchali Medu",
+    "coordinates": {
+      "lat": 9.857,
+      "lng": 77.183
+    },
+    "population": 2100,
+    "households": 480,
+    "risk_score": 78,
+    "risk_level": "high",
+    "priority": "short-term",
+    "hazard_types": [
+      "flood",
+      "earthquake"
+    ],
+    "hazard_exposure": {
+      "landslide": 25,
+      "flood": 82,
+      "earthquake": 55,
+      "cyclone": 10
+    },
+    "vulnerability_factors": [
+      "Dense settlement on floodplain",
+      "Proximity to reservoir backwaters",
+      "High population density"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-06-12",
+        "hazard_type": "flood",
+        "severity": "high",
+        "description": "Reservoir discharge flooded homes"
+      }
+    ],
+    "recommended_site_id": "SITE-02",
+    "recommended_site_name": "Thodupuzha Municipal Ground",
+    "recommended_site_suitability": 68,
+    "recommended_site_capacity": 3200
+  },
+  {
+    "id": "HAB-005",
+    "name": "Chempakapara",
+    "block": "Thodupuzha",
+    "village": "Chempakapara",
+    "coordinates": {
+      "lat": 9.901,
+      "lng": 77.245
+    },
+    "population": 340,
+    "households": 78,
+    "risk_score": 75,
+    "risk_level": "high",
+    "priority": "short-term",
+    "hazard_types": [
+      "landslide"
+    ],
+    "hazard_exposure": {
+      "landslide": 70,
+      "flood": 20,
+      "earthquake": 12,
+      "cyclone": 0
+    },
+    "vulnerability_factors": [
+      "Narrow valley limited routes",
+      "Deforestation increasing runoff",
+      "No early warning system"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-07-08",
+        "hazard_type": "landslide",
+        "severity": "medium",
+        "description": "Debris flow blocked road"
+      }
+    ],
+    "recommended_site_id": "SITE-03",
+    "recommended_site_name": "Kumily Transit Center",
+    "recommended_site_suitability": 65,
+    "recommended_site_capacity": 1800
+  },
+  {
+    "id": "HAB-006",
+    "name": "Petti Mundakkayam",
+    "block": "Peerumade",
+    "village": "Petti Mundakkayam",
+    "coordinates": {
+      "lat": 9.765,
+      "lng": 77.178
+    },
+    "population": 980,
+    "households": 225,
+    "risk_score": 71,
+    "risk_level": "high",
+    "priority": "short-term",
+    "hazard_types": [
+      "flood",
+      "landslide"
+    ],
+    "hazard_exposure": {
+      "landslide": 55,
+      "flood": 68,
+      "earthquake": 18,
+      "cyclone": 5
+    },
+    "vulnerability_factors": [
+      "Riverbank no retaining wall",
+      "Seasonal flooding 2-3 weeks",
+      "Agricultural land loss"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-07-25",
+        "hazard_type": "flood",
+        "severity": "medium",
+        "description": "River rose 2.3m above normal"
+      }
+    ],
+    "recommended_site_id": "SITE-02",
+    "recommended_site_name": "Thodupuzha Municipal Ground",
+    "recommended_site_suitability": 62,
+    "recommended_site_capacity": 3200
+  },
+  {
+    "id": "HAB-007",
+    "name": "Anakkadavu",
+    "block": "Udumbanchola",
+    "village": "Anakkadavu",
+    "coordinates": {
+      "lat": 9.82,
+      "lng": 77.098
+    },
+    "population": 560,
+    "households": 130,
+    "risk_score": 68,
+    "risk_level": "medium",
+    "priority": "medium-term",
+    "hazard_types": [
+      "landslide",
+      "flood"
+    ],
+    "hazard_exposure": {
+      "landslide": 60,
+      "flood": 55,
+      "earthquake": 8,
+      "cyclone": 0
+    },
+    "vulnerability_factors": [
+      "Moderate slope soil creep",
+      "Limited drainage",
+      "Remote location"
+    ],
+    "disaster_history": [
+      {
+        "date": "2023-08-12",
+        "hazard_type": "landslide",
+        "severity": "low",
+        "description": "Minor earth movement"
+      }
+    ],
+    "recommended_site_id": "SITE-01",
+    "recommended_site_name": "Nedumkandam Relief Camp",
+    "recommended_site_suitability": 74,
+    "recommended_site_capacity": 2400
+  },
+  {
+    "id": "HAB-008",
+    "name": "Kuzhithurai",
+    "block": "Idukki",
+    "village": "Kuzhithurai",
+    "coordinates": {
+      "lat": 9.875,
+      "lng": 77.22
+    },
+    "population": 1850,
+    "households": 420,
+    "risk_score": 64,
+    "risk_level": "medium",
+    "priority": "medium-term",
+    "hazard_types": [
+      "flood"
+    ],
+    "hazard_exposure": {
+      "landslide": 10,
+      "flood": 75,
+      "earthquake": 22,
+      "cyclone": 5
+    },
+    "vulnerability_factors": [
+      "Low elevation flash floods",
+      "Aging bridge sole access",
+      "School and hospital in zone"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-06-28",
+        "hazard_type": "flood",
+        "severity": "medium",
+        "description": "Flash flood damaged bridge"
+      }
+    ],
+    "recommended_site_id": "SITE-02",
+    "recommended_site_name": "Thodupuzha Municipal Ground",
+    "recommended_site_suitability": 70,
+    "recommended_site_capacity": 3200
+  },
+  {
+    "id": "HAB-009",
+    "name": "Pullupara",
+    "block": "Devikulam",
+    "village": "Pullupara",
+    "coordinates": {
+      "lat": 9.92,
+      "lng": 77.165
+    },
+    "population": 280,
+    "households": 65,
+    "risk_score": 58,
+    "risk_level": "medium",
+    "priority": "medium-term",
+    "hazard_types": [
+      "landslide"
+    ],
+    "hazard_exposure": {
+      "landslide": 52,
+      "flood": 15,
+      "earthquake": 10,
+      "cyclone": 0
+    },
+    "vulnerability_factors": [
+      "Tea estate colony moderate slope",
+      "Single unpaved road",
+      "No emergency shelter"
+    ],
+    "disaster_history": [
+      {
+        "date": "2023-07-22",
+        "hazard_type": "landslide",
+        "severity": "low",
+        "description": "Minor road blockage"
+      }
+    ],
+    "recommended_site_id": "SITE-03",
+    "recommended_site_name": "Kumily Transit Center",
+    "recommended_site_suitability": 58,
+    "recommended_site_capacity": 1800
+  },
+  {
+    "id": "HAB-010",
+    "name": "Purapuzha",
+    "block": "Thodupuzha",
+    "village": "Purapuzha",
+    "coordinates": {
+      "lat": 9.91,
+      "lng": 77.28
+    },
+    "population": 720,
+    "households": 165,
+    "risk_score": 52,
+    "risk_level": "medium",
+    "priority": "medium-term",
+    "hazard_types": [
+      "flood",
+      "earthquake"
+    ],
+    "hazard_exposure": {
+      "landslide": 8,
+      "flood": 60,
+      "earthquake": 45,
+      "cyclone": 8
+    },
+    "vulnerability_factors": [
+      "River confluence flood risk",
+      "Moderate seismic zone",
+      "Good road access"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-07-02",
+        "hazard_type": "flood",
+        "severity": "low",
+        "description": "Minor bank overflow"
+      }
+    ],
+    "recommended_site_id": "SITE-02",
+    "recommended_site_name": "Thodupuzha Municipal Ground",
+    "recommended_site_suitability": 75,
+    "recommended_site_capacity": 3200
+  },
+  {
+    "id": "HAB-011",
+    "name": "Kochara",
+    "block": "Peerumade",
+    "village": "Kochara",
+    "coordinates": {
+      "lat": 9.78,
+      "lng": 77.15
+    },
+    "population": 450,
+    "households": 105,
+    "risk_score": 45,
+    "risk_level": "low",
+    "priority": "medium-term",
+    "hazard_types": [
+      "earthquake"
+    ],
+    "hazard_exposure": {
+      "landslide": 5,
+      "flood": 10,
+      "earthquake": 48,
+      "cyclone": 2
+    },
+    "vulnerability_factors": [
+      "Moderate seismic zone III",
+      "Well-built masonry",
+      "Good hospital connectivity"
+    ],
+    "disaster_history": [
+      {
+        "date": "2022-10-05",
+        "hazard_type": "earthquake",
+        "severity": "low",
+        "description": "3.2 magnitude no damage"
+      }
+    ],
+    "recommended_site_id": null,
+    "recommended_site_name": null,
+    "recommended_site_suitability": null,
+    "recommended_site_capacity": null
+  },
+  {
+    "id": "HAB-012",
+    "name": "Kadavoor",
+    "block": "Idukki",
+    "village": "Kadavoor",
+    "coordinates": {
+      "lat": 9.845,
+      "lng": 77.195
+    },
+    "population": 1580,
+    "households": 360,
+    "risk_score": 42,
+    "risk_level": "low",
+    "priority": "medium-term",
+    "hazard_types": [
+      "flood"
+    ],
+    "hazard_exposure": {
+      "landslide": 5,
+      "flood": 40,
+      "earthquake": 12,
+      "cyclone": 5
+    },
+    "vulnerability_factors": [
+      "Well-drained terrain",
+      "Flood risk riverside only",
+      "Functional drainage"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-06-20",
+        "hazard_type": "flood",
+        "severity": "low",
+        "description": "Minor waterlogging"
+      }
+    ],
+    "recommended_site_id": "SITE-02",
+    "recommended_site_name": "Thodupuzha Municipal Ground",
+    "recommended_site_suitability": 80,
+    "recommended_site_capacity": 3200
+  },
+  {
+    "id": "HAB-013",
+    "name": "Muttom",
+    "block": "Udumbanchola",
+    "village": "Muttom",
+    "coordinates": {
+      "lat": 9.805,
+      "lng": 77.112
+    },
+    "population": 320,
+    "households": 72,
+    "risk_score": 38,
+    "risk_level": "low",
+    "priority": "medium-term",
+    "hazard_types": [
+      "landslide"
+    ],
+    "hazard_exposure": {
+      "landslide": 35,
+      "flood": 8,
+      "earthquake": 5,
+      "cyclone": 0
+    },
+    "vulnerability_factors": [
+      "Stable rock formation",
+      "Low population density",
+      "Adequate vegetation"
+    ],
+    "disaster_history": [],
+    "recommended_site_id": "SITE-01",
+    "recommended_site_name": "Nedumkandam Relief Camp",
+    "recommended_site_suitability": 90,
+    "recommended_site_capacity": 2400
+  },
+  {
+    "id": "HAB-014",
+    "name": "Udumbanchola Town",
+    "block": "Udumbanchola",
+    "village": "Udumbanchola Town",
+    "coordinates": {
+      "lat": 9.838,
+      "lng": 77.14
+    },
+    "population": 3200,
+    "households": 720,
+    "risk_score": 35,
+    "risk_level": "low",
+    "priority": "medium-term",
+    "hazard_types": [
+      "flood"
+    ],
+    "hazard_exposure": {
+      "landslide": 5,
+      "flood": 32,
+      "earthquake": 10,
+      "cyclone": 3
+    },
+    "vulnerability_factors": [
+      "Block HQ better infrastructure",
+      "Elevated terrain",
+      "Emergency services present"
+    ],
+    "disaster_history": [
+      {
+        "date": "2024-07-10",
+        "hazard_type": "flood",
+        "severity": "low",
+        "description": "Minor stream overflow"
+      }
+    ],
+    "recommended_site_id": null,
+    "recommended_site_name": null,
+    "recommended_site_suitability": null,
+    "recommended_site_capacity": null
+  },
+  {
+    "id": "HAB-015",
+    "name": "Vannapuram",
+    "block": "Thodupuzha",
+    "village": "Vannapuram",
+    "coordinates": {
+      "lat": 9.935,
+      "lng": 77.26
+    },
+    "population": 890,
+    "households": 205,
+    "risk_score": 30,
+    "risk_level": "low",
+    "priority": "medium-term",
+    "hazard_types": [
+      "earthquake",
+      "cyclone"
+    ],
+    "hazard_exposure": {
+      "landslide": 3,
+      "flood": 12,
+      "earthquake": 38,
+      "cyclone": 25
+    },
+    "vulnerability_factors": [
+      "Moderate seismic with cyclone",
+      "Well-built structures",
+      "Highway access"
+    ],
+    "disaster_history": [],
+    "recommended_site_id": "SITE-02",
+    "recommended_site_name": "Thodupuzha Municipal Ground",
+    "recommended_site_suitability": 85,
+    "recommended_site_capacity": 3200
+  },
+  {
+    "id": "HAB-016",
+    "name": "Elappara",
+    "block": "Peerumade",
+    "village": "Elappara",
+    "coordinates": {
+      "lat": 9.795,
+      "lng": 77.21
+    },
+    "population": 640,
+    "households": 148,
+    "risk_score": 28,
+    "risk_level": "low",
+    "priority": "medium-term",
+    "hazard_types": [
+      "flood"
+    ],
+    "hazard_exposure": {
+      "landslide": 8,
+      "flood": 28,
+      "earthquake": 15,
+      "cyclone": 3
+    },
+    "vulnerability_factors": [
+      "Gently sloping good drainage",
+      "Low flood risk",
+      "Basic preparedness"
+    ],
+    "disaster_history": [],
+    "recommended_site_id": "SITE-03",
+    "recommended_site_name": "Kumily Transit Center",
+    "recommended_site_suitability": 78,
+    "recommended_site_capacity": 1800
+  }
+]
