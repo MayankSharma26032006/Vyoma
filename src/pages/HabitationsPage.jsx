@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "../components/ui/Icon.jsx";
 import villageData from "../../mockData/habitations.json";
+import { useSelection } from "../context/SelectionContext.jsx";
 
 // Risk level: RED/ORANGE/GREEN use severity-red/amber/green per Section 5.1
 const RISK_LEVEL_COLORS = {
@@ -42,17 +43,25 @@ export default function HabitationsPage() {
   const navigate = useNavigate();
   const [sortConfig, setSortConfig] = useState({ key: "risk_score", direction: "desc" });
   const [filters, setFilters] = useState({ risk_level: [], priority: [] });
+  const { selectedState, selectedDistrict } = useSelection();
   const [isLoading] = useState(false);
+
+  // Filter by global state/district selection
+  const regionFiltered = useMemo(() => villageData.filter(v => {
+    if (selectedState && v.state !== selectedState) return false;
+    if (selectedDistrict && v.district !== selectedDistrict) return false;
+    return true;
+  }), [selectedState, selectedDistrict]);
 
   const toggleFilter = (cat, val) => setFilters(p => ({ ...p, [cat]: p[cat].includes(val) ? p[cat].filter(v => v !== val) : [...p[cat], val] }));
   const clearFilters = () => setFilters({ risk_level: [], priority: [] });
   const hasActiveFilters = Object.values(filters).some(a => a.length > 0);
 
-  const filtered = useMemo(() => villageData.filter(h => {
+  const filtered = useMemo(() => regionFiltered.filter(h => {
     if (filters.risk_level.length > 0 && !filters.risk_level.includes(h.risk_level)) return false;
     if (filters.priority.length > 0 && !filters.priority.includes(h.relocation_priority)) return false;
     return true;
-  }), [filters]);
+  }), [filters, regionFiltered]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -85,7 +94,7 @@ export default function HabitationsPage() {
         <div className="flex items-end justify-between mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-phase-text tracking-tight">Vulnerable Villages</h1>
-            <p className="text-sm text-phase-text-secondary mt-1">Idukki District &mdash; {sorted.length} of {villageData.length} villages</p>
+            <p className="text-sm text-phase-text-secondary mt-1">{selectedDistrict || selectedState || "All regions"} &mdash; {sorted.length} of {regionFiltered.length} villages</p>
           </div>
           {hasActiveFilters && (
             <button onClick={clearFilters} className="flex items-center gap-1.5 px-3 py-1.5 rounded-[2px] border border-[#2A3040] text-phase-text-secondary text-[12px] font-mono hover:bg-phase-elevated transition-colors">
@@ -112,7 +121,7 @@ export default function HabitationsPage() {
             </tr></thead>
             <tbody>
               {isLoading ? Array.from({ length: 8 }).map((_, i) => <SkeletonRow key={i} />) : sorted.map((v, idx) => (
-                <tr key={v.village_id} onClick={() => navigate(`/habitations/${v.village_id}`)} className="border-b border-[#1E2330] hover:bg-phase-card/50 cursor-pointer transition-colors">
+                <tr key={v.village_id} onClick={() => navigate(`/villages/${v.village_id}`)} className="border-b border-[#1E2330] hover:bg-phase-card/50 cursor-pointer transition-colors">
                   <td className="px-4 py-3 text-phase-text-secondary font-mono text-[13px]">{idx + 1}</td>
                   <td className="px-4 py-3"><span className="text-phase-text text-[14px]">{v.name}</span><span className="text-phase-text-secondary text-[12px] ml-2 font-mono">{v.village_id}</span></td>
                   <td className="px-4 py-3 text-phase-text font-mono text-[13px]">{v.population.toLocaleString()}</td>

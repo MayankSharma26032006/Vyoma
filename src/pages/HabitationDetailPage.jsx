@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import Icon from "../components/ui/Icon.jsx";
 import villageData from "../../mockData/habitations.json";
+import { useSelection } from "../context/SelectionContext.jsx";
 
 // Risk level: RED/ORANGE/GREEN
 const RISK_LEVEL_COLORS = {
@@ -71,7 +72,13 @@ function LowConfidenceBadge() {
 
 export default function HabitationDetailPage() {
   const { id } = useParams();
-  const hab = villageData.find(v => v.village_id === id);
+  const { selectedState, selectedDistrict } = useSelection();
+  const hab = villageData.find(v => {
+    if (v.village_id !== id) return false;
+    if (selectedState && v.state !== selectedState) return false;
+    if (selectedDistrict && v.district !== selectedDistrict) return false;
+    return true;
+  });
 
   if (!hab) {
     return (
@@ -80,7 +87,7 @@ export default function HabitationDetailPage() {
           <Icon name="error_outline" className="text-[48px] text-phase-text-secondary mb-3 block mx-auto" />
           <h2 className="text-lg text-phase-text mb-1">Village not found</h2>
           <p className="text-sm text-phase-text-secondary mb-4">No village matches ID: {id}</p>
-          <Link to="/habitations" className="px-4 py-2 rounded-[2px] border border-[#2A3040] text-phase-text-secondary text-[13px] font-mono hover:bg-phase-elevated transition-colors">Back to Villages</Link>
+          <Link to="/villages" className="px-4 py-2 rounded-[2px] border border-[#2A3040] text-phase-text-secondary text-[13px] font-mono hover:bg-phase-elevated transition-colors">Back to Villages</Link>
         </div>
       </main>
     );
@@ -91,7 +98,7 @@ export default function HabitationDetailPage() {
       <div className="max-w-[1200px] mx-auto">
         {/* Breadcrumb + Header */}
         <div className="mb-6">
-          <Link to="/habitations" className="inline-flex items-center gap-1 text-[12px] font-mono text-phase-text-secondary hover:text-phase-text transition-colors mb-3">
+          <Link to="/villages" className="inline-flex items-center gap-1 text-[12px] font-mono text-phase-text-secondary hover:text-phase-text transition-colors mb-3">
             <Icon name="arrow_back" className="text-[14px]" />Villages
           </Link>
           <div className="flex items-end justify-between">

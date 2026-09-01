@@ -8,8 +8,11 @@ import MapPanel from "../components/dashboard/MapPanel.jsx";
 import CriticalHabitationsTable from "../components/dashboard/CriticalHabitationsTable.jsx";
 import RelocationPrioritySummary from "../components/dashboard/RelocationPrioritySummary.jsx";
 import RelocationSiteCapacity from "../components/dashboard/RelocationSiteCapacity.jsx";
+import { useSelection } from "../context/SelectionContext.jsx";
 
 export default function Dashboard() {
+  const { selectedState, selectedDistrict } = useSelection();
+  const regionLabel = selectedDistrict || selectedState || "Selected State / Selected District";
   return (
     <main className="flex-1 overflow-y-auto p-margin-page flex flex-col gap-stack-lg bg-surface-lowest">
       {/* 1. Header Section */}
@@ -19,7 +22,7 @@ export default function Dashboard() {
             District Overview
           </h2>
           <p className="font-label-md text-label-md text-on-surface-variant mt-1">
-            Selected State / Selected District
+            {regionLabel}
           </p>
         </div>
         <div className="flex items-center gap-2 text-on-surface-variant bg-surface-base px-3 py-1 border border-border-subtle rounded-[2px]">

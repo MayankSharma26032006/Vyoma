@@ -11,7 +11,7 @@ export default function KanbanCard({ village }) {
 
   return (
     <button
-      onClick={() => navigate(`/habitations/${village.village_id}`)}
+      onClick={() => navigate(`/villages/${village.village_id}`)}
       className="w-full text-left bg-phase-card rounded-[4px] border border-[#1E2330] p-3 hover:border-[#2A3040] transition-colors cursor-pointer"
     >
       <div className="flex items-start justify-between gap-2 mb-2">

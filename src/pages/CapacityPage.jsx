@@ -1,5 +1,7 @@
+import { useMemo } from "react";
 import Icon from "../components/ui/Icon.jsx";
 import siteData from "../../mockData/relocationSites.json";
+import { useSelection } from "../context/SelectionContext.jsx";
 
 /**
  * Single source of truth for capacity threshold classification.
@@ -38,8 +40,14 @@ function summaryStats(sites) {
 }
 
 export default function CapacityPage() {
-  const sorted = [...siteData].sort((a, b) => (b.occupied / b.total_capacity) - (a.occupied / a.total_capacity));
-  const stats = summaryStats(siteData);
+  const { selectedState, selectedDistrict } = useSelection();
+  const filteredSites = useMemo(() => siteData.filter(s => {
+    if (selectedState && s.state !== selectedState) return false;
+    if (selectedDistrict && s.district !== selectedDistrict) return false;
+    return true;
+  }), [selectedState, selectedDistrict]);
+  const sorted = [...filteredSites].sort((a, b) => (b.occupied / b.total_capacity) - (a.occupied / a.total_capacity));
+  const stats = summaryStats(filteredSites);
 
   return (
     <main className="flex-1 overflow-y-auto bg-phase-bg p-6">
@@ -47,7 +55,7 @@ export default function CapacityPage() {
       <div className="flex items-end justify-between border-b border-[#1E2330] pb-3 mb-6">
         <div>
           <h2 className="text-[20px] font-semibold text-phase-text">Carrying Capacity</h2>
-          <p className="text-[13px] text-phase-text-secondary mt-1">Site utilization across Idukki district</p>
+          <p className="text-[13px] text-phase-text-secondary mt-1">Site utilization across {selectedDistrict || selectedState || "all districts"}</p>
         </div>
         <a href="/sites" className="text-[12px] font-mono text-phase-text-secondary hover:text-phase-text transition-colors flex items-center gap-1">
           <Icon name="arrow_back" className="text-[14px]" />

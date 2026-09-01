@@ -12,7 +12,8 @@
     "maplibre-gl": "^6.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^7.18.3"
+    "react-router-dom": "^7.18.3",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",

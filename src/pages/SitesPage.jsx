@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import Icon from "../components/ui/Icon.jsx";
 import siteData from "../../mockData/relocationSites.json";
+import { useSelection } from "../context/SelectionContext.jsx";
 
 const INFRA_KEYS = [
   { key: "water_supply", label: "Water", icon: "water_drop" },
@@ -38,11 +39,18 @@ function FilterChip({ label, active, onClick, colorClass }) {
 }
 
 export default function SitesPage() {
+  const { selectedState, selectedDistrict } = useSelection();
   const [sortConfig, setSortConfig] = useState({ key: "site_id", direction: "asc" });
   const [filters, setFilters] = useState({ suitability: null });
 
+  const regionFiltered = useMemo(() => siteData.filter(s => {
+    if (selectedState && s.state !== selectedState) return false;
+    if (selectedDistrict && s.district !== selectedDistrict) return false;
+    return true;
+  }), [selectedState, selectedDistrict]);
+
   const sites = useMemo(() => {
-    let result = [...siteData];
+    let result = [...regionFiltered];
 
     if (filters.suitability) {
       result = result.filter((s) => {
@@ -63,7 +71,7 @@ export default function SitesPage() {
     });
 
     return result;
-  }, [sortConfig, filters]);
+  }, [sortConfig, filters, regionFiltered]);
 
   function handleSort(key) {
     setSortConfig((prev) => ({
@@ -91,7 +99,7 @@ export default function SitesPage() {
       <div className="flex items-end justify-between border-b border-[#1E2330] pb-3 mb-6">
         <div>
           <h2 className="text-[20px] font-semibold text-phase-text">Relocation Sites</h2>
-          <p className="text-[13px] text-phase-text-secondary mt-1">Registered sites in Idukki district</p>
+          <p className="text-[13px] text-phase-text-secondary mt-1">Registered sites in {selectedDistrict || selectedState || "all districts"}</p>
         </div>
         <div className="flex items-center gap-2 text-phase-text-secondary bg-phase-elevated px-3 py-1 border border-[#1E2330] rounded-[2px]">
           <Icon name="sync" className="text-[14px]" />

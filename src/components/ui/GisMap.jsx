@@ -120,7 +120,7 @@ export default function GisMap({
 
   const handlePopupNavigate = useCallback(
     (villageId) => {
-      navigate(`/habitations/${villageId}`);
+      navigate(`/villages/${villageId}`);
     },
     [navigate]
   );
