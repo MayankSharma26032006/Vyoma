@@ -4,6 +4,10 @@ import TopBar from "./components/layout/TopBar.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import HabitationsPage from "./pages/HabitationsPage.jsx";
 import HabitationDetailPage from "./pages/HabitationDetailPage.jsx";
+import PriorityPage from "./pages/PriorityPage.jsx";
+import SitesPage from "./pages/SitesPage.jsx";
+import CapacityPage from "./pages/CapacityPage.jsx";
+import MapPage from "./pages/MapPage.jsx";
 
 export default function App() {
   return (
@@ -15,6 +19,10 @@ export default function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/habitations" element={<HabitationsPage />} />
           <Route path="/habitations/:id" element={<HabitationDetailPage />} />
+          <Route path="/priority" element={<PriorityPage />} />
+          <Route path="/sites" element={<SitesPage />} />
+          <Route path="/capacity" element={<CapacityPage />} />
+          <Route path="/map" element={<MapPage />} />
         </Routes>
       </div>
     </div>

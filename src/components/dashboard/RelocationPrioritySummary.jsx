@@ -1,5 +1,5 @@
 /**
- * Relocation Priority Summary card matching the exact Stitch design.
+ * Relocation Priority Summary card.
  * Displays immediate, short-term, and medium-term relocation counts.
  */
 
@@ -11,7 +11,7 @@ const PRIORITIES = [
 
 export default function RelocationPrioritySummary() {
   return (
-    <div className="border border-border-subtle rounded-lg p-4 bg-surface-container-high">
+    <div className="border border-border-subtle rounded-[4px] p-4 bg-surface-container-high">
       <h3 className="font-body-lg text-body-lg font-medium text-primary mb-4 border-b border-border-subtle pb-2">
         Relocation Priority Summary
       </h3>
@@ -19,7 +19,7 @@ export default function RelocationPrioritySummary() {
         {PRIORITIES.map((item) => (
           <div
             key={item.label}
-            className="bg-surface-raised border border-border-subtle rounded p-3 flex flex-col items-center justify-center text-center"
+            className="bg-surface-raised border border-border-subtle rounded-[2px] p-3 flex flex-col items-center justify-center text-center"
           >
             <span className="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">
               {item.label}

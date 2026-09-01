@@ -1,21 +1,21 @@
 /**
- * Metrics row matching the exact Stitch design.
+ * Metrics row for the dashboard.
  * Displays 5 KPI stat cards in a responsive grid.
  */
 import StatCard from "../ui/StatCard.jsx";
 
 const STATS = [
   {
-    label: "Critical Habitations",
-    value: "12",
-    detail: "3 immediate",
+    label: "RED Risk Villages",
+    value: "2",
+    detail: "2 immediate",
     valueColor: "text-severity-red",
   },
   {
-    label: "High-Risk",
-    value: "48",
-    detail: "+2 this week",
-    valueColor: "text-severity-orange",
+    label: "ORANGE Risk",
+    value: "6",
+    detail: "+1 this week",
+    valueColor: "text-severity-amber",
   },
   {
     label: "Immediate Relocation",

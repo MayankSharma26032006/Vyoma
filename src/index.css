@@ -1,3 +1,5 @@
+@import "maplibre-gl/dist/maplibre-gl.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,3 +16,22 @@ body {
 .icon-fill {
   font-variation-settings: "FILL" 1;
 }
+
+/* Critical marker pulse — the single animated element in the interface (Section 8.1) */
+@keyframes critical-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.8); }
+}
+
+.critical-marker {
+  animation: critical-pulse 2s ease-in-out infinite;
+}
+
+/* Override MapLibre's default `transition: opacity 0.2s` on markers.
+   Without this, toggling risk-level filters causes a compositing repaint
+   artifact where sibling markers appear to jump momentarily. */
+.vyoma-marker { transition: none !important; }
+
+/* MapLibre overrides for dark theme */
+.maplibregl-ctrl-logo { display: none !important; }
+.maplibregl-ctrl-attrib { display: none !important; }

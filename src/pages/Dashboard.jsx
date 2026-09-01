@@ -22,7 +22,7 @@ export default function Dashboard() {
             Selected State / Selected District
           </p>
         </div>
-        <div className="flex items-center gap-2 text-on-surface-variant bg-surface-base px-3 py-1 border border-border-subtle rounded-DEFAULT">
+        <div className="flex items-center gap-2 text-on-surface-variant bg-surface-base px-3 py-1 border border-border-subtle rounded-[2px]">
           <Icon name="sync" className="text-[14px]" />
           <span className="font-label-sm text-label-sm">Last updated: 14:30</span>
         </div>

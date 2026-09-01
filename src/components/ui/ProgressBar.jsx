@@ -1,5 +1,5 @@
 /**
- * Progress bar matching the exact Stitch design.
+ * Progress bar.
  * Used in RelocationSiteCapacity to show site utilization.
  */
 export default function ProgressBar({ label, percentage, barColor = "bg-severity-green" }) {
@@ -9,9 +9,9 @@ export default function ProgressBar({ label, percentage, barColor = "bg-severity
         <span className="text-primary">{label}</span>
         <span className="text-on-surface-variant">{percentage}%</span>
       </div>
-      <div className="w-full bg-surface-container rounded h-2 overflow-hidden border border-border-subtle">
+      <div className="w-full bg-surface-container rounded-[2px] h-2 overflow-hidden border border-border-subtle">
         <div
-          className={`${barColor} h-2 rounded`}
+          className={`${barColor} h-2 rounded-[2px]`}
           style={{ width: `${percentage}%` }}
         />
       </div>

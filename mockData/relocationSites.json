@@ -1,0 +1,162 @@
+[
+  {
+    "site_id": "SITE-01",
+    "name": "Punulur Colony",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.8105,
+    "longitude": 77.129,
+    "suitability_score": 92,
+    "total_capacity": 1600,
+    "occupied": 1520,
+    "available": 80,
+    "infrastructure": {
+      "water_supply": true,
+      "electricity": true,
+      "road_access": true,
+      "shelter": true,
+      "medical_facility": true,
+      "sanitation": true
+    }
+  },
+  {
+    "site_id": "SITE-02",
+    "name": "Udumbanchola Transit",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.8312,
+    "longitude": 77.1548,
+    "suitability_score": 85,
+    "total_capacity": 2200,
+    "occupied": 1760,
+    "available": 440,
+    "infrastructure": {
+      "water_supply": true,
+      "electricity": true,
+      "road_access": true,
+      "shelter": true,
+      "medical_facility": false,
+      "sanitation": true
+    }
+  },
+  {
+    "site_id": "SITE-03",
+    "name": "Kumily Camp",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.765,
+    "longitude": 77.178,
+    "suitability_score": 78,
+    "total_capacity": 900,
+    "occupied": 450,
+    "available": 450,
+    "infrastructure": {
+      "water_supply": true,
+      "electricity": false,
+      "road_access": true,
+      "shelter": true,
+      "medical_facility": false,
+      "sanitation": false
+    }
+  },
+  {
+    "site_id": "SITE-04",
+    "name": "Vagamon Settlement",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.745,
+    "longitude": 77.112,
+    "suitability_score": 71,
+    "total_capacity": 1100,
+    "occupied": 330,
+    "available": 770,
+    "infrastructure": {
+      "water_supply": true,
+      "electricity": false,
+      "road_access": false,
+      "shelter": true,
+      "medical_facility": false,
+      "sanitation": false
+    }
+  },
+  {
+    "site_id": "SITE-05",
+    "name": "Thodupuzha Block",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.895,
+    "longitude": 77.225,
+    "suitability_score": 65,
+    "total_capacity": 800,
+    "occupied": 560,
+    "available": 240,
+    "infrastructure": {
+      "water_supply": false,
+      "electricity": true,
+      "road_access": true,
+      "shelter": false,
+      "medical_facility": false,
+      "sanitation": true
+    }
+  },
+  {
+    "site_id": "SITE-06",
+    "name": "Nedumkandam Ground",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.855,
+    "longitude": 77.198,
+    "suitability_score": 88,
+    "total_capacity": 1400,
+    "occupied": 1330,
+    "available": 70,
+    "infrastructure": {
+      "water_supply": true,
+      "electricity": true,
+      "road_access": true,
+      "shelter": true,
+      "medical_facility": true,
+      "sanitation": false
+    }
+  },
+  {
+    "site_id": "SITE-07",
+    "name": "Adoor Relief Camp",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.780,
+    "longitude": 77.095,
+    "suitability_score": 55,
+    "total_capacity": 600,
+    "occupied": 120,
+    "available": 480,
+    "infrastructure": {
+      "water_supply": false,
+      "electricity": false,
+      "road_access": true,
+      "shelter": false,
+      "medical_facility": false,
+      "sanitation": false
+    }
+  },
+  {
+    "site_id": "SITE-08",
+    "name": "Chengannur Transit Hub",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.720,
+    "longitude": 77.145,
+    "suitability_score": 82,
+    "total_capacity": 1800,
+    "occupied": 1350,
+    "available": 450,
+    "infrastructure": {
+      "water_supply": true,
+      "electricity": true,
+      "road_access": true,
+      "shelter": true,
+      "medical_facility": false,
+      "sanitation": true
+    }
+  }
+]

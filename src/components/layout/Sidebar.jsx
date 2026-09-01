@@ -3,10 +3,10 @@ import Icon from "../ui/Icon.jsx";
 
 const NAV_ITEMS = [
   { icon: "dashboard", label: "Dashboard", to: "/" },
-  { icon: "map", label: "Hazard Map", to: "#" },
-  { icon: "home_pin", label: "Habitations", to: "/habitations" },
-  { icon: "priority_high", label: "Relocation Priority", to: "#" },
-  { icon: "location_on", label: "Relocation Sites", to: "#" },
+  { icon: "map", label: "Hazard Map", to: "/map" },
+  { icon: "home_pin", label: "Villages", to: "/habitations" },
+  { icon: "priority_high", label: "Relocation Priority", to: "/priority" },
+  { icon: "location_on", label: "Relocation Sites", to: "/sites" },
   { icon: "analytics", label: "Analytics", to: "#" },
 ];
 
@@ -22,7 +22,7 @@ function SidebarLink({ icon, label, to }) {
       <a
         href="#"
         onClick={(e) => e.preventDefault()}
-        className="flex items-center gap-3 px-3 py-2 rounded-lg font-label-md text-label-md transition-all duration-150 ease-in-out text-on-surface-variant hover:text-on-surface hover:bg-surface-variant"
+        className="flex items-center gap-3 px-3 py-2 rounded-[4px] font-label-md text-label-md transition-all duration-150 ease-in-out text-on-surface-variant hover:text-on-surface hover:bg-surface-variant"
       >
         <Icon name={icon} />
         {label}
@@ -34,7 +34,7 @@ function SidebarLink({ icon, label, to }) {
       to={to}
       end={to === "/"}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-3 py-2 rounded-lg font-label-md text-label-md transition-all duration-150 ease-in-out ${
+        `flex items-center gap-3 px-3 py-2 rounded-[4px] font-label-md text-label-md transition-all duration-150 ease-in-out ${
           isActive
             ? "bg-secondary-container text-on-secondary-container"
             : "text-on-surface-variant hover:text-on-surface hover:bg-surface-variant"
@@ -51,7 +51,7 @@ export default function Sidebar() {
   return (
     <nav className="bg-surface-container dark:bg-surface-container flex flex-col h-screen fixed left-0 top-0 z-40 border-r border-border-subtle w-64">
       <div className="p-gutter border-b border-border-subtle flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+        <div className="w-8 h-8 rounded-[4px] bg-primary flex items-center justify-center">
           <Icon name="explore" className="text-surface-lowest font-bold text-lg icon-fill" />
         </div>
         <div>

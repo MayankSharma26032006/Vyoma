@@ -1,663 +1,567 @@
 [
   {
-    "id": "HAB-001",
+    "village_id": "VIL-44012",
     "name": "Kunchithanny",
-    "block": "Udumbanchola",
-    "village": "Kunchithanny",
-    "coordinates": {
-      "lat": 9.8312,
-      "lng": 77.1548
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.8312,
+    "longitude": 77.1548,
     "population": 1240,
     "households": 285,
-    "risk_score": 91,
-    "risk_level": "critical",
-    "priority": "immediate",
-    "hazard_types": [
-      "landslide",
-      "flood"
-    ],
-    "hazard_exposure": {
-      "landslide": 88,
-      "flood": 72,
-      "earthquake": 15,
-      "cyclone": 0
-    },
-    "vulnerability_factors": [
-      "Steep slope with unstable soil",
-      "Proximity to active landslide zone",
-      "No access road for emergency vehicles",
-      "Riverbank erosion within 50m"
-    ],
-    "disaster_history": [
+    "risk_score": 0.91,
+    "risk_level": "RED",
+    "relocation_priority": "IMMEDIATE",
+    "vulnerability_multiplier": 1.4,
+    "top_factors": [
       {
-        "date": "2024-07-15",
-        "hazard_type": "landslide",
-        "severity": "critical",
-        "description": "Major landslide blocked access road"
+        "feature": "slope_gradient",
+        "value": "42\u00b0",
+        "impact": "high"
       },
       {
-        "date": "2023-08-22",
-        "hazard_type": "flood",
-        "severity": "high",
-        "description": "Flash flood inundated 40% area"
+        "feature": "soil_moisture",
+        "value": "0.87",
+        "impact": "high"
       },
       {
-        "date": "2022-10-10",
-        "hazard_type": "landslide",
-        "severity": "medium",
-        "description": "Minor slope failure"
+        "feature": "proximity_to_river",
+        "value": "<50m",
+        "impact": "medium"
+      },
+      {
+        "feature": "road_access",
+        "value": "none",
+        "impact": "low"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-01",
-    "recommended_site_name": "Nedumkandam Relief Camp",
-    "recommended_site_suitability": 87,
-    "recommended_site_capacity": 2400
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-002",
+    "village_id": "VIL-44013",
     "name": "Edamalakudy",
-    "block": "Udumbanchola",
-    "village": "Edamalakudy",
-    "coordinates": {
-      "lat": 9.8105,
-      "lng": 77.129
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.8105,
+    "longitude": 77.129,
     "population": 850,
     "households": 195,
-    "risk_score": 87,
-    "risk_level": "critical",
-    "priority": "immediate",
-    "hazard_types": [
-      "landslide"
-    ],
-    "hazard_exposure": {
-      "landslide": 92,
-      "flood": 30,
-      "earthquake": 10,
-      "cyclone": 0
-    },
-    "vulnerability_factors": [
-      "Isolated hilltop settlement",
-      "Continuous slope instability",
-      "No medical facility within 15km"
-    ],
-    "disaster_history": [
+    "risk_score": 0.87,
+    "risk_level": "RED",
+    "relocation_priority": "IMMEDIATE",
+    "vulnerability_multiplier": 1.3,
+    "top_factors": [
       {
-        "date": "2024-06-30",
-        "hazard_type": "landslide",
-        "severity": "critical",
-        "description": "Road severed 3-day supply cut-off"
+        "feature": "slope_angle",
+        "value": "38\u00b0",
+        "impact": "high"
       },
       {
-        "date": "2023-07-18",
-        "hazard_type": "landslide",
-        "severity": "high",
-        "description": "Two homes partially buried"
+        "feature": "drainage_density",
+        "value": "low",
+        "impact": "high"
+      },
+      {
+        "feature": "road_access",
+        "value": "single unpaved",
+        "impact": "medium"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-01",
-    "recommended_site_name": "Nedumkandam Relief Camp",
-    "recommended_site_suitability": 82,
-    "recommended_site_capacity": 2400
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-003",
+    "village_id": "VIL-44014",
     "name": "Vagapparai",
-    "block": "Devikulam",
-    "village": "Vagapparai",
-    "coordinates": {
-      "lat": 9.942,
-      "lng": 77.2015
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.942,
+    "longitude": 77.2015,
     "population": 420,
     "households": 98,
-    "risk_score": 82,
-    "risk_level": "high",
-    "priority": "short-term",
-    "hazard_types": [
-      "flood",
-      "landslide"
-    ],
-    "hazard_exposure": {
-      "landslide": 65,
-      "flood": 78,
-      "earthquake": 20,
-      "cyclone": 0
-    },
-    "vulnerability_factors": [
-      "Low-lying area adjacent to stream",
-      "Soil saturation above threshold",
-      "Aging infrastructure"
-    ],
-    "disaster_history": [
+    "risk_score": 0.78,
+    "risk_level": "ORANGE",
+    "relocation_priority": "SHORT-TERM",
+    "vulnerability_multiplier": 1.2,
+    "top_factors": [
       {
-        "date": "2024-07-20",
-        "hazard_type": "flood",
-        "severity": "high",
-        "description": "Stream overflowed 12 homes waterlogged"
+        "feature": "proximity_to_river",
+        "value": "<100m",
+        "impact": "high"
+      },
+      {
+        "feature": "soil_saturation",
+        "value": "above threshold",
+        "impact": "medium"
+      },
+      {
+        "feature": "infrastructure_age",
+        "value": "40+ years",
+        "impact": "low"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-03",
-    "recommended_site_name": "Kumily Transit Center",
-    "recommended_site_suitability": 71,
-    "recommended_site_capacity": 1800
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-004",
+    "village_id": "VIL-44015",
     "name": "Panchali Medu",
-    "block": "Idukki",
-    "village": "Panchali Medu",
-    "coordinates": {
-      "lat": 9.857,
-      "lng": 77.183
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.857,
+    "longitude": 77.183,
     "population": 2100,
     "households": 480,
-    "risk_score": 78,
-    "risk_level": "high",
-    "priority": "short-term",
-    "hazard_types": [
-      "flood",
-      "earthquake"
-    ],
-    "hazard_exposure": {
-      "landslide": 25,
-      "flood": 82,
-      "earthquake": 55,
-      "cyclone": 10
-    },
-    "vulnerability_factors": [
-      "Dense settlement on floodplain",
-      "Proximity to reservoir backwaters",
-      "High population density"
-    ],
-    "disaster_history": [
+    "risk_score": 0.72,
+    "risk_level": "ORANGE",
+    "relocation_priority": "SHORT-TERM",
+    "vulnerability_multiplier": 1.1,
+    "top_factors": [
       {
-        "date": "2024-06-12",
-        "hazard_type": "flood",
-        "severity": "high",
-        "description": "Reservoir discharge flooded homes"
+        "feature": "flood_plain_proximity",
+        "value": "adjacent",
+        "impact": "high"
+      },
+      {
+        "feature": "population_density",
+        "value": "high",
+        "impact": "medium"
+      },
+      {
+        "feature": "drainage_capacity",
+        "value": "insufficient",
+        "impact": "medium"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-02",
-    "recommended_site_name": "Thodupuzha Municipal Ground",
-    "recommended_site_suitability": 68,
-    "recommended_site_capacity": 3200
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-005",
+    "village_id": "VIL-44016",
     "name": "Chempakapara",
-    "block": "Thodupuzha",
-    "village": "Chempakapara",
-    "coordinates": {
-      "lat": 9.901,
-      "lng": 77.245
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.901,
+    "longitude": 77.245,
     "population": 340,
     "households": 78,
-    "risk_score": 75,
-    "risk_level": "high",
-    "priority": "short-term",
-    "hazard_types": [
-      "landslide"
-    ],
-    "hazard_exposure": {
-      "landslide": 70,
-      "flood": 20,
-      "earthquake": 12,
-      "cyclone": 0
-    },
-    "vulnerability_factors": [
-      "Narrow valley limited routes",
-      "Deforestation increasing runoff",
-      "No early warning system"
-    ],
-    "disaster_history": [
+    "risk_score": 0.68,
+    "risk_level": "ORANGE",
+    "relocation_priority": "SHORT-TERM",
+    "vulnerability_multiplier": 1.15,
+    "top_factors": [
       {
-        "date": "2024-07-08",
-        "hazard_type": "landslide",
-        "severity": "medium",
-        "description": "Debris flow blocked road"
+        "feature": "valley_width",
+        "value": "narrow",
+        "impact": "high"
+      },
+      {
+        "feature": "vegetation_cover",
+        "value": "declining",
+        "impact": "medium"
+      },
+      {
+        "feature": "early_warning",
+        "value": "none",
+        "impact": "low"
       }
     ],
+    "low_confidence": true,
     "recommended_site_id": "SITE-03",
-    "recommended_site_name": "Kumily Transit Center",
-    "recommended_site_suitability": 65,
-    "recommended_site_capacity": 1800
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-006",
+    "village_id": "VIL-44017",
     "name": "Petti Mundakkayam",
-    "block": "Peerumade",
-    "village": "Petti Mundakkayam",
-    "coordinates": {
-      "lat": 9.765,
-      "lng": 77.178
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.765,
+    "longitude": 77.178,
     "population": 980,
     "households": 225,
-    "risk_score": 71,
-    "risk_level": "high",
-    "priority": "short-term",
-    "hazard_types": [
-      "flood",
-      "landslide"
-    ],
-    "hazard_exposure": {
-      "landslide": 55,
-      "flood": 68,
-      "earthquake": 18,
-      "cyclone": 5
-    },
-    "vulnerability_factors": [
-      "Riverbank no retaining wall",
-      "Seasonal flooding 2-3 weeks",
-      "Agricultural land loss"
-    ],
-    "disaster_history": [
+    "risk_score": 0.64,
+    "risk_level": "ORANGE",
+    "relocation_priority": "SHORT-TERM",
+    "vulnerability_multiplier": 1.05,
+    "top_factors": [
       {
-        "date": "2024-07-25",
-        "hazard_type": "flood",
-        "severity": "medium",
-        "description": "River rose 2.3m above normal"
+        "feature": "riverbank_stability",
+        "value": "eroding",
+        "impact": "high"
+      },
+      {
+        "feature": "flood_duration",
+        "value": "2-3 weeks",
+        "impact": "medium"
+      },
+      {
+        "feature": "elevation_above_river",
+        "value": "3m",
+        "impact": "medium"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-02",
-    "recommended_site_name": "Thodupuzha Municipal Ground",
-    "recommended_site_suitability": 62,
-    "recommended_site_capacity": 3200
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-007",
+    "village_id": "VIL-44018",
     "name": "Anakkadavu",
-    "block": "Udumbanchola",
-    "village": "Anakkadavu",
-    "coordinates": {
-      "lat": 9.82,
-      "lng": 77.098
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.82,
+    "longitude": 77.098,
     "population": 560,
     "households": 130,
-    "risk_score": 68,
-    "risk_level": "medium",
-    "priority": "medium-term",
-    "hazard_types": [
-      "landslide",
-      "flood"
-    ],
-    "hazard_exposure": {
-      "landslide": 60,
-      "flood": 55,
-      "earthquake": 8,
-      "cyclone": 0
-    },
-    "vulnerability_factors": [
-      "Moderate slope soil creep",
-      "Limited drainage",
-      "Remote location"
-    ],
-    "disaster_history": [
+    "risk_score": 0.52,
+    "risk_level": "ORANGE",
+    "relocation_priority": "MEDIUM-TERM",
+    "vulnerability_multiplier": 1.0,
+    "top_factors": [
       {
-        "date": "2023-08-12",
-        "hazard_type": "landslide",
-        "severity": "low",
-        "description": "Minor earth movement"
+        "feature": "slope_creep",
+        "value": "moderate",
+        "impact": "medium"
+      },
+      {
+        "feature": "drainage",
+        "value": "limited",
+        "impact": "medium"
+      },
+      {
+        "feature": "accessibility",
+        "value": "remote",
+        "impact": "low"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-01",
-    "recommended_site_name": "Nedumkandam Relief Camp",
-    "recommended_site_suitability": 74,
-    "recommended_site_capacity": 2400
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-008",
+    "village_id": "VIL-44019",
     "name": "Kuzhithurai",
-    "block": "Idukki",
-    "village": "Kuzhithurai",
-    "coordinates": {
-      "lat": 9.875,
-      "lng": 77.22
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.875,
+    "longitude": 77.22,
     "population": 1850,
     "households": 420,
-    "risk_score": 64,
-    "risk_level": "medium",
-    "priority": "medium-term",
-    "hazard_types": [
-      "flood"
-    ],
-    "hazard_exposure": {
-      "landslide": 10,
-      "flood": 75,
-      "earthquake": 22,
-      "cyclone": 5
-    },
-    "vulnerability_factors": [
-      "Low elevation flash floods",
-      "Aging bridge sole access",
-      "School and hospital in zone"
-    ],
-    "disaster_history": [
+    "risk_score": 0.48,
+    "risk_level": "ORANGE",
+    "relocation_priority": "MEDIUM-TERM",
+    "vulnerability_multiplier": 0.95,
+    "top_factors": [
       {
-        "date": "2024-06-28",
-        "hazard_type": "flood",
-        "severity": "medium",
-        "description": "Flash flood damaged bridge"
+        "feature": "elevation",
+        "value": "low",
+        "impact": "medium"
+      },
+      {
+        "feature": "bridge_condition",
+        "value": "aging",
+        "impact": "high"
+      },
+      {
+        "feature": "critical_infrastructure",
+        "value": "in zone",
+        "impact": "medium"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-02",
-    "recommended_site_name": "Thodupuzha Municipal Ground",
-    "recommended_site_suitability": 70,
-    "recommended_site_capacity": 3200
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-009",
+    "village_id": "VIL-44020",
     "name": "Pullupara",
-    "block": "Devikulam",
-    "village": "Pullupara",
-    "coordinates": {
-      "lat": 9.92,
-      "lng": 77.165
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.92,
+    "longitude": 77.165,
     "population": 280,
     "households": 65,
-    "risk_score": 58,
-    "risk_level": "medium",
-    "priority": "medium-term",
-    "hazard_types": [
-      "landslide"
-    ],
-    "hazard_exposure": {
-      "landslide": 52,
-      "flood": 15,
-      "earthquake": 10,
-      "cyclone": 0
-    },
-    "vulnerability_factors": [
-      "Tea estate colony moderate slope",
-      "Single unpaved road",
-      "No emergency shelter"
-    ],
-    "disaster_history": [
+    "risk_score": 0.42,
+    "risk_level": "GREEN",
+    "relocation_priority": "MEDIUM-TERM",
+    "vulnerability_multiplier": 0.9,
+    "top_factors": [
       {
-        "date": "2023-07-22",
-        "hazard_type": "landslide",
-        "severity": "low",
-        "description": "Minor road blockage"
+        "feature": "slope_angle",
+        "value": "18\u00b0",
+        "impact": "medium"
+      },
+      {
+        "feature": "road_access",
+        "value": "single unpaved",
+        "impact": "low"
+      },
+      {
+        "feature": "shelter_proximity",
+        "value": ">10km",
+        "impact": "low"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-03",
-    "recommended_site_name": "Kumily Transit Center",
-    "recommended_site_suitability": 58,
-    "recommended_site_capacity": 1800
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-010",
+    "village_id": "VIL-44021",
     "name": "Purapuzha",
-    "block": "Thodupuzha",
-    "village": "Purapuzha",
-    "coordinates": {
-      "lat": 9.91,
-      "lng": 77.28
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.91,
+    "longitude": 77.28,
     "population": 720,
     "households": 165,
-    "risk_score": 52,
-    "risk_level": "medium",
-    "priority": "medium-term",
-    "hazard_types": [
-      "flood",
-      "earthquake"
-    ],
-    "hazard_exposure": {
-      "landslide": 8,
-      "flood": 60,
-      "earthquake": 45,
-      "cyclone": 8
-    },
-    "vulnerability_factors": [
-      "River confluence flood risk",
-      "Moderate seismic zone",
-      "Good road access"
-    ],
-    "disaster_history": [
+    "risk_score": 0.38,
+    "risk_level": "GREEN",
+    "relocation_priority": "MEDIUM-TERM",
+    "vulnerability_multiplier": 0.85,
+    "top_factors": [
       {
-        "date": "2024-07-02",
-        "hazard_type": "flood",
-        "severity": "low",
-        "description": "Minor bank overflow"
+        "feature": "river_confluence",
+        "value": "adjacent",
+        "impact": "medium"
+      },
+      {
+        "feature": "seismic_zone",
+        "value": "III",
+        "impact": "low"
+      },
+      {
+        "feature": "road_access",
+        "value": "good",
+        "impact": "low"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-02",
-    "recommended_site_name": "Thodupuzha Municipal Ground",
-    "recommended_site_suitability": 75,
-    "recommended_site_capacity": 3200
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-011",
+    "village_id": "VIL-44022",
     "name": "Kochara",
-    "block": "Peerumade",
-    "village": "Kochara",
-    "coordinates": {
-      "lat": 9.78,
-      "lng": 77.15
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.78,
+    "longitude": 77.15,
     "population": 450,
     "households": 105,
-    "risk_score": 45,
-    "risk_level": "low",
-    "priority": "medium-term",
-    "hazard_types": [
-      "earthquake"
-    ],
-    "hazard_exposure": {
-      "landslide": 5,
-      "flood": 10,
-      "earthquake": 48,
-      "cyclone": 2
-    },
-    "vulnerability_factors": [
-      "Moderate seismic zone III",
-      "Well-built masonry",
-      "Good hospital connectivity"
-    ],
-    "disaster_history": [
+    "risk_score": 0.32,
+    "risk_level": "GREEN",
+    "relocation_priority": "MEDIUM-TERM",
+    "vulnerability_multiplier": 0.8,
+    "top_factors": [
       {
-        "date": "2022-10-05",
-        "hazard_type": "earthquake",
-        "severity": "low",
-        "description": "3.2 magnitude no damage"
+        "feature": "seismic_zone",
+        "value": "III",
+        "impact": "low"
+      },
+      {
+        "feature": "building_construction",
+        "value": "masonry",
+        "impact": "low"
+      },
+      {
+        "feature": "hospital_access",
+        "value": "good",
+        "impact": "low"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": null,
-    "recommended_site_name": null,
-    "recommended_site_suitability": null,
-    "recommended_site_capacity": null
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-012",
+    "village_id": "VIL-44023",
     "name": "Kadavoor",
-    "block": "Idukki",
-    "village": "Kadavoor",
-    "coordinates": {
-      "lat": 9.845,
-      "lng": 77.195
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.845,
+    "longitude": 77.195,
     "population": 1580,
     "households": 360,
-    "risk_score": 42,
-    "risk_level": "low",
-    "priority": "medium-term",
-    "hazard_types": [
-      "flood"
-    ],
-    "hazard_exposure": {
-      "landslide": 5,
-      "flood": 40,
-      "earthquake": 12,
-      "cyclone": 5
-    },
-    "vulnerability_factors": [
-      "Well-drained terrain",
-      "Flood risk riverside only",
-      "Functional drainage"
-    ],
-    "disaster_history": [
+    "risk_score": 0.28,
+    "risk_level": "GREEN",
+    "relocation_priority": "MEDIUM-TERM",
+    "vulnerability_multiplier": 0.85,
+    "top_factors": [
       {
-        "date": "2024-06-20",
-        "hazard_type": "flood",
-        "severity": "low",
-        "description": "Minor waterlogging"
+        "feature": "drainage",
+        "value": "functional",
+        "impact": "low"
+      },
+      {
+        "feature": "terrain",
+        "value": "well-drained",
+        "impact": "low"
+      },
+      {
+        "feature": "flood_risk",
+        "value": "riverside only",
+        "impact": "low"
       }
     ],
+    "low_confidence": false,
     "recommended_site_id": "SITE-02",
-    "recommended_site_name": "Thodupuzha Municipal Ground",
-    "recommended_site_suitability": 80,
-    "recommended_site_capacity": 3200
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-013",
+    "village_id": "VIL-44024",
     "name": "Muttom",
-    "block": "Udumbanchola",
-    "village": "Muttom",
-    "coordinates": {
-      "lat": 9.805,
-      "lng": 77.112
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.805,
+    "longitude": 77.112,
     "population": 320,
     "households": 72,
-    "risk_score": 38,
-    "risk_level": "low",
-    "priority": "medium-term",
-    "hazard_types": [
-      "landslide"
-    ],
-    "hazard_exposure": {
-      "landslide": 35,
-      "flood": 8,
-      "earthquake": 5,
-      "cyclone": 0
-    },
-    "vulnerability_factors": [
-      "Stable rock formation",
-      "Low population density",
-      "Adequate vegetation"
-    ],
-    "disaster_history": [],
-    "recommended_site_id": "SITE-01",
-    "recommended_site_name": "Nedumkandam Relief Camp",
-    "recommended_site_suitability": 90,
-    "recommended_site_capacity": 2400
-  },
-  {
-    "id": "HAB-014",
-    "name": "Udumbanchola Town",
-    "block": "Udumbanchola",
-    "village": "Udumbanchola Town",
-    "coordinates": {
-      "lat": 9.838,
-      "lng": 77.14
-    },
-    "population": 3200,
-    "households": 720,
-    "risk_score": 35,
-    "risk_level": "low",
-    "priority": "medium-term",
-    "hazard_types": [
-      "flood"
-    ],
-    "hazard_exposure": {
-      "landslide": 5,
-      "flood": 32,
-      "earthquake": 10,
-      "cyclone": 3
-    },
-    "vulnerability_factors": [
-      "Block HQ better infrastructure",
-      "Elevated terrain",
-      "Emergency services present"
-    ],
-    "disaster_history": [
+    "risk_score": 0.22,
+    "risk_level": "GREEN",
+    "relocation_priority": "ROUTINE",
+    "vulnerability_multiplier": 0.7,
+    "top_factors": [
       {
-        "date": "2024-07-10",
-        "hazard_type": "flood",
-        "severity": "low",
-        "description": "Minor stream overflow"
+        "feature": "rock_formation",
+        "value": "stable",
+        "impact": "low"
+      },
+      {
+        "feature": "population_density",
+        "value": "low",
+        "impact": "low"
+      },
+      {
+        "feature": "vegetation",
+        "value": "adequate",
+        "impact": "low"
       }
     ],
-    "recommended_site_id": null,
-    "recommended_site_name": null,
-    "recommended_site_suitability": null,
-    "recommended_site_capacity": null
+    "low_confidence": true,
+    "recommended_site_id": "SITE-01",
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-015",
+    "village_id": "VIL-44025",
+    "name": "Udumbanchola Town",
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.838,
+    "longitude": 77.14,
+    "population": 3200,
+    "households": 720,
+    "risk_score": 0.18,
+    "risk_level": "GREEN",
+    "relocation_priority": "ROUTINE",
+    "vulnerability_multiplier": 0.65,
+    "top_factors": [
+      {
+        "feature": "infrastructure",
+        "value": "block HQ",
+        "impact": "low"
+      },
+      {
+        "feature": "elevation",
+        "value": "elevated",
+        "impact": "low"
+      },
+      {
+        "feature": "emergency_services",
+        "value": "present",
+        "impact": "low"
+      }
+    ],
+    "low_confidence": false,
+    "recommended_site_id": null,
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
+  },
+  {
+    "village_id": "VIL-44026",
     "name": "Vannapuram",
-    "block": "Thodupuzha",
-    "village": "Vannapuram",
-    "coordinates": {
-      "lat": 9.935,
-      "lng": 77.26
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.935,
+    "longitude": 77.26,
     "population": 890,
     "households": 205,
-    "risk_score": 30,
-    "risk_level": "low",
-    "priority": "medium-term",
-    "hazard_types": [
-      "earthquake",
-      "cyclone"
+    "risk_score": 0.15,
+    "risk_level": "GREEN",
+    "relocation_priority": "ROUTINE",
+    "vulnerability_multiplier": 0.6,
+    "top_factors": [
+      {
+        "feature": "seismic_zone",
+        "value": "III",
+        "impact": "low"
+      },
+      {
+        "feature": "building_quality",
+        "value": "well-built",
+        "impact": "low"
+      },
+      {
+        "feature": "highway_access",
+        "value": "direct",
+        "impact": "low"
+      }
     ],
-    "hazard_exposure": {
-      "landslide": 3,
-      "flood": 12,
-      "earthquake": 38,
-      "cyclone": 25
-    },
-    "vulnerability_factors": [
-      "Moderate seismic with cyclone",
-      "Well-built structures",
-      "Highway access"
-    ],
-    "disaster_history": [],
+    "low_confidence": false,
     "recommended_site_id": "SITE-02",
-    "recommended_site_name": "Thodupuzha Municipal Ground",
-    "recommended_site_suitability": 85,
-    "recommended_site_capacity": 3200
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   },
   {
-    "id": "HAB-016",
+    "village_id": "VIL-44027",
     "name": "Elappara",
-    "block": "Peerumade",
-    "village": "Elappara",
-    "coordinates": {
-      "lat": 9.795,
-      "lng": 77.21
-    },
+    "district": "Idukki",
+    "state": "Kerala",
+    "latitude": 9.795,
+    "longitude": 77.21,
     "population": 640,
     "households": 148,
-    "risk_score": 28,
-    "risk_level": "low",
-    "priority": "medium-term",
-    "hazard_types": [
-      "flood"
+    "risk_score": 0.12,
+    "risk_level": "GREEN",
+    "relocation_priority": "ROUTINE",
+    "vulnerability_multiplier": 0.55,
+    "top_factors": [
+      {
+        "feature": "slope",
+        "value": "gentle",
+        "impact": "low"
+      },
+      {
+        "feature": "drainage",
+        "value": "good",
+        "impact": "low"
+      },
+      {
+        "feature": "preparedness",
+        "value": "basic",
+        "impact": "low"
+      }
     ],
-    "hazard_exposure": {
-      "landslide": 8,
-      "flood": 28,
-      "earthquake": 15,
-      "cyclone": 3
-    },
-    "vulnerability_factors": [
-      "Gently sloping good drainage",
-      "Low flood risk",
-      "Basic preparedness"
-    ],
-    "disaster_history": [],
+    "low_confidence": false,
     "recommended_site_id": "SITE-03",
-    "recommended_site_name": "Kumily Transit Center",
-    "recommended_site_suitability": 78,
-    "recommended_site_capacity": 1800
+    "prediction_timestamp": "2026-08-28T10:15:00Z",
+    "model_version": "xgb-v2.3.1"
   }
 ]

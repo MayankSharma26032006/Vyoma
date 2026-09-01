@@ -1,31 +1,30 @@
 /**
- * Critical Habitations side panel matching the exact Stitch design.
+ * Critical Habitations side panel.
  * Displays a scrollable table of high-risk villages with scores and population.
  */
 import { useState } from "react";
 import Icon from "../ui/Icon.jsx";
 
 const SEVERITY_COLORS = {
-  critical: "text-severity-red",
-  high: "text-severity-orange",
-  medium: "text-severity-amber",
-  low: "text-severity-green",
+  RED: "text-severity-red",
+  ORANGE: "text-severity-amber",
+  GREEN: "text-severity-green",
 };
 
 const HABITATIONS = [
-  { village: "Village A", score: 91, population: "1,240", severity: "critical" },
-  { village: "Settlement B", score: 87, population: "850", severity: "critical" },
-  { village: "Hamlet C", score: 82, population: "420", severity: "high" },
-  { village: "Village D", score: 78, population: "2,100", severity: "high" },
-  { village: "Colony E", score: 75, population: "340", severity: "high" },
-  { village: "Village F", score: 71, population: "980", severity: "high" },
+  { village: "Kunchithanny", score: 0.91, population: "1,240", risk_level: "RED" },
+  { village: "Edamalakudy", score: 0.87, population: "850", risk_level: "RED" },
+  { village: "Vagapparai", score: 0.78, population: "420", risk_level: "ORANGE" },
+  { village: "Panchali Medu", score: 0.72, population: "2,100", risk_level: "ORANGE" },
+  { village: "Chempakapara", score: 0.68, population: "340", risk_level: "ORANGE" },
+  { village: "Petti Mundakkayam", score: 0.64, population: "980", risk_level: "ORANGE" },
 ];
 
 export default function CriticalHabitationsTable() {
   const [selectedVillage, setSelectedVillage] = useState(null);
 
   return (
-    <div className="bg-surface-base border border-border-subtle rounded-lg flex flex-col h-full overflow-hidden">
+    <div className="bg-surface-base border border-border-subtle rounded-[4px] flex flex-col h-full overflow-hidden">
       {/* Header */}
       <div className="p-4 border-b border-border-subtle bg-surface-raised">
         <h3 className="font-body-lg text-body-lg font-medium text-primary flex items-center gap-2">
@@ -54,7 +53,7 @@ export default function CriticalHabitationsTable() {
                 }`}
               >
                 <td className="px-3 py-2 text-primary">{row.village}</td>
-                <td className={`px-3 py-2 text-center font-bold ${SEVERITY_COLORS[row.severity]}`}>
+                <td className={`px-3 py-2 text-center font-bold font-mono ${SEVERITY_COLORS[row.risk_level]}`}>
                   {row.score}
                 </td>
                 <td className="px-3 py-2 text-right">{row.population}</td>

@@ -8,28 +8,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        // ── Severity palette (ONLY for risk/priority/status) ──
+        // -- Severity palette (ONLY for risk/priority/status) --
         "severity-red": "#DC2626",
         "severity-orange": "#EA580C",
         "severity-amber": "#D97706",
         "severity-green": "#16A34A",
 
-        // ── Hazard-type palette (ONLY for hazard labels/legend/map dots) ──
-        "hazard-flood": "#C45D3E",
-        "hazard-landslide": "#4A7C9B",
-        "hazard-earthquake": "#5B5EA6",
-        "hazard-cyclone": "#2A9D8F",
-
-        // ── Phase 2B backgrounds ──
+        // -- Phase 2B backgrounds --
         "phase-bg": "#0B0E14",
         "phase-elevated": "#12151C",
         "phase-card": "#1A1E28",
 
-        // ── Phase 2B text ──
+        // -- Phase 2B text --
         "phase-text": "#E8EAED",
         "phase-text-secondary": "#9CA3AF",
 
-        // ── Surface / neutral system (unchanged) ──
+        // -- Surface / neutral system --
         "on-surface": "#e5e2e1",
         "secondary-fixed-dim": "#c6c6cf",
         "surface-tint": "#c6c6c7",

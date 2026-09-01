@@ -1,98 +1,95 @@
 /**
- * GIS Map panel matching the exact Stitch design.
- * Contains the map image, filter toggles, zoom/layers/search controls, and legend.
- * Filter colors use the hazard-type palette, never severity colors.
+ * GIS Map panel for the Dashboard.
+ * Embedded MapLibre map with risk-level toggles, district filter, zoom controls, and legend.
  */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import MapFilterButton from "../ui/MapFilterButton.jsx";
-import MapToolButton from "../ui/MapToolButton.jsx";
 import Icon from "../ui/Icon.jsx";
-
-const MAP_IMAGE_URL =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuB0vGMxF6_hJ_M6aRq0KRVixWw5kGUu_IbOuzrhV176JSQH0wP2ZIB5xL0GsoEwEYMUBT05-x-r6GbLZKya8-jNQHCuXtENyszlvFOcrSnVBSS61q64pAOsiUjBI6HFSy4q0IJAplFZzMlBIlgIQjiGWiurKafNBH2TwOEUN1mPqaVLb8A2-65YFb4KfqcEgZOOU39R9OfYFqt24i2DRLUhh5IQqSKW6GUP1UoxmEVQrFbPLJnGosdwRQ";
+import GisMap from "../ui/GisMap.jsx";
+import villageData from "../../../mockData/habitations.json";
 
 const FILTERS = [
-  { key: "redZones", label: "Red Zones", color: "bg-severity-red" },
-  { key: "floodRisk", label: "Flood Risk", color: "bg-hazard-flood" },
-  { key: "landslide", label: "Landslide", color: "bg-hazard-landslide" },
+  { key: "RED", label: "RED Risk", color: "bg-severity-red" },
+  { key: "ORANGE", label: "ORANGE Risk", color: "bg-severity-amber" },
+  { key: "GREEN", label: "GREEN Risk", color: "bg-severity-green" },
 ];
 
 export default function MapPanel() {
-  const [activeFilters, setActiveFilters] = useState({
-    redZones: true,
-    floodRisk: false,
-    landslide: false,
-  });
+  const [activeRiskLevels, setActiveRiskLevels] = useState(
+    new Set(["RED", "ORANGE", "GREEN"])
+  );
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
 
-  const toggleFilter = (key) => {
-    setActiveFilters((prev) => ({ ...prev, [key]: !prev[key] }));
+  const districts = useMemo(() => {
+    const set = new Set(villageData.map((v) => v.district));
+    return ["All", ...Array.from(set).sort()];
+  }, []);
+
+  const toggleRisk = (level) => {
+    setActiveRiskLevels((prev) => {
+      const next = new Set(prev);
+      if (next.has(level)) next.delete(level);
+      else next.add(level);
+      return next;
+    });
   };
 
   return (
-    <div className="lg:col-span-3 bg-surface-base border border-border-subtle rounded-lg relative overflow-hidden flex flex-col">
-      {/* Map Filter Controls */}
-      <div className="absolute top-4 left-4 z-10 flex gap-2">
-        <div className="bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-lg p-2 flex gap-2 shadow-xl">
+    <div className="lg:col-span-3 bg-surface-base border border-border-subtle rounded-[4px] relative overflow-hidden flex flex-col">
+      {/* Filter Controls — constrained width to avoid overlapping zoom controls at top-right */}
+      <div className="absolute top-4 left-4 z-10 flex gap-2 flex-wrap max-w-[calc(100%-80px)]">
+        <div className="bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-[4px] p-2 flex gap-2 shadow-xl">
           {FILTERS.map((f) => (
             <MapFilterButton
               key={f.key}
               label={f.label}
               color={f.color}
-              active={activeFilters[f.key]}
-              onClick={() => toggleFilter(f.key)}
+              active={activeRiskLevels.has(f.key)}
+              onClick={() => toggleRisk(f.key)}
             />
           ))}
         </div>
-      </div>
 
-      {/* Zoom / Tools */}
-      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
-        <div className="bg-surface-container-high border border-border-subtle rounded flex flex-col shadow-xl">
-          <MapToolButton iconName="add" className="border-b border-border-subtle" />
-          <MapToolButton iconName="remove" />
+        {/* District filter */}
+        <div className="bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-[4px] px-2 py-1 shadow-xl flex items-center gap-1.5">
+          <Icon name="filter_list" className="text-[14px] text-on-surface-variant" />
+          <select
+            value={selectedDistrict || ""}
+            onChange={(e) => setSelectedDistrict(e.target.value || null)}
+            className="bg-transparent text-on-surface font-label-sm text-label-sm border-none outline-none cursor-pointer appearance-none pr-1"
+          >
+            {districts.map((d) => (
+              <option key={d} value={d === "All" ? "" : d} className="bg-surface-container text-on-surface">
+                {d === "All" ? "All Districts" : d}
+              </option>
+            ))}
+          </select>
         </div>
-        <button className="bg-surface-container-high border border-border-subtle rounded p-2 shadow-xl text-on-surface-variant hover:bg-surface-variant">
-          <Icon name="layers" size="18px" />
-        </button>
-        <button className="bg-surface-container-high border border-border-subtle rounded p-2 shadow-xl text-on-surface-variant hover:bg-surface-variant">
-          <Icon name="search" size="18px" />
-        </button>
       </div>
 
-      {/* Map Legend */}
-      <div className="absolute bottom-4 right-4 z-10 bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-lg p-3 shadow-xl">
+      {/* Legend */}
+      <div className="absolute bottom-4 right-4 z-10 bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-[4px] p-3 shadow-xl">
         <h4 className="font-label-sm text-label-sm text-on-surface mb-2 uppercase tracking-wide">
           Legend
         </h4>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-severity-red/40 border border-severity-red rounded-sm" />
-            <span className="font-label-sm text-label-sm text-on-surface-variant">
-              Critical Zone
-            </span>
+            <div className="w-3 h-3 bg-severity-red/40 border border-severity-red rounded-[2px]" />
+            <span className="font-label-sm text-label-sm text-on-surface-variant">RED Risk</span>
           </div>
           <div className="flex items-center gap-2">
-            <Icon name="home_pin" className="text-[16px] text-severity-amber" />
-            <span className="font-label-sm text-label-sm text-on-surface-variant">
-              Vulnerable Habitation
-            </span>
+            <div className="w-3 h-3 bg-severity-amber/40 border border-severity-amber rounded-[2px]" />
+            <span className="font-label-sm text-label-sm text-on-surface-variant">ORANGE Risk</span>
           </div>
           <div className="flex items-center gap-2">
-            <Icon name="location_on" className="text-[16px] text-severity-green" />
-            <span className="font-label-sm text-label-sm text-on-surface-variant">
-              Relocation Site
-            </span>
+            <div className="w-3 h-3 bg-severity-green/40 border border-severity-green rounded-[2px]" />
+            <span className="font-label-sm text-label-sm text-on-surface-variant">GREEN Risk</span>
           </div>
         </div>
       </div>
 
-      {/* Map Image */}
-      <div className="w-full h-full relative" data-location="Idukki">
-        <div
-          className="bg-cover bg-center w-full h-full opacity-80"
-          style={{ backgroundImage: `url('${MAP_IMAGE_URL}')` }}
-        />
-      </div>
+      {/* Map */}
+      <GisMap height="100%" activeRiskLevels={activeRiskLevels} district={selectedDistrict} />
     </div>
   );
 }

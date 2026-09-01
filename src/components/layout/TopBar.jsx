@@ -1,5 +1,5 @@
 /**
- * Top navigation bar matching the exact Stitch design.
+ * Top navigation bar.
  * Contains state/district selectors and trailing action icons.
  */
 import Icon from "../ui/Icon.jsx";
@@ -13,13 +13,13 @@ export default function TopBar() {
       {/* Left: Selectors */}
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-surface-base border border-border-subtle rounded-xl px-3 py-1.5 hover:bg-surface-container transition-colors cursor-pointer">
+          <div className="flex items-center gap-2 bg-surface-base border border-border-subtle rounded-[6px] px-3 py-1.5 hover:bg-surface-container transition-colors cursor-pointer">
             <span className="font-label-md text-label-md text-on-surface">
               State: Select State
             </span>
             <Icon name="arrow_drop_down" className="text-[16px] text-on-surface-variant" />
           </div>
-          <div className="flex items-center gap-2 bg-surface-base border border-border-subtle rounded-xl px-3 py-1.5 hover:bg-surface-container transition-colors cursor-pointer">
+          <div className="flex items-center gap-2 bg-surface-base border border-border-subtle rounded-[6px] px-3 py-1.5 hover:bg-surface-container transition-colors cursor-pointer">
             <span className="font-label-md text-label-md text-on-surface">
               District: Select District
             </span>
@@ -30,10 +30,10 @@ export default function TopBar() {
 
       {/* Right: Action icons + Avatar */}
       <div className="flex items-center gap-4">
-        <button className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-lg hover:bg-surface-variant">
+        <button className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-[4px] hover:bg-surface-variant">
           <Icon name="notifications" />
         </button>
-        <button className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-lg hover:bg-surface-variant">
+        <button className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-[4px] hover:bg-surface-variant">
           <Icon name="settings" />
         </button>
         <div className="w-8 h-8 rounded-full bg-surface-container-high border border-border-subtle overflow-hidden ml-2 cursor-pointer">

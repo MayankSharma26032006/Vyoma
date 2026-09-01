@@ -1,5 +1,5 @@
 /**
- * Relocation Site Capacity card matching the exact Stitch design.
+ * Relocation Site Capacity card.
  * Displays progress bars for each relocation site.
  * Capacity thresholds: <70% = green, 70-90% = amber, >90% = red
  */
@@ -19,7 +19,7 @@ const SITES = [
 
 export default function RelocationSiteCapacity() {
   return (
-    <div className="border border-border-subtle rounded-lg p-4 bg-surface-container-high">
+    <div className="border border-border-subtle rounded-[4px] p-4 bg-surface-container-high">
       <h3 className="font-body-lg text-body-lg font-medium text-primary mb-4 border-b border-border-subtle pb-2">
         Relocation Site Capacity
       </h3>
