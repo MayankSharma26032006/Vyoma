@@ -14,11 +14,23 @@ import NotFoundPage from "./pages/NotFoundPage.jsx";
 import HelpPage from "./pages/HelpPage.jsx";
 import LogoutPage from "./pages/LogoutPage.jsx";
 import { SelectionProvider } from "./context/SelectionContext.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
+    <QueryClientProvider client={queryClient}>
     <SelectionProvider>
     <div className="flex h-screen overflow-hidden font-body-md">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -40,5 +52,6 @@ export default function App() {
       </div>
     </div>
     </SelectionProvider>
+    </QueryClientProvider>
   );
 }

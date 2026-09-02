@@ -1,0 +1,52 @@
+// Prisma schema for VYOMA — Village & Relocation Site entities
+// Data model matches phase-0-design.md Section 4
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Village {
+  village_id              String   @id
+  name                    String
+  district                String
+  state                   String
+  latitude                Float
+  longitude               Float
+  population              Int
+  risk_score              Float    // continuous 0.0-1.0
+  risk_level              String   // "RED" | "ORANGE" | "GREEN"
+  relocation_priority     String   // "IMMEDIATE" | "SHORT-TERM" | "MEDIUM-TERM" | "ROUTINE"
+  vulnerability_multiplier Float
+  top_factors             Json     // array of { feature: string, value: string, impact: "high"|"medium"|"low" }
+  low_confidence          Boolean
+  recommended_site_id     String?
+  prediction_timestamp    DateTime
+  model_version           String
+
+  @@index([district])
+  @@index([state])
+  @@index([risk_level])
+  @@index([relocation_priority])
+}
+
+model RelocationSite {
+  site_id            String  @id
+  name               String
+  district            String
+  state               String
+  latitude             Float
+  longitude            Float
+  suitability_score    Float
+  total_capacity       Int
+  occupied             Int
+  available            Int
+  infrastructure       Json    // { water_supply, electricity, road_access, shelter, medical_facility, sanitation }
+
+  @@index([district])
+  @@index([state])
+}

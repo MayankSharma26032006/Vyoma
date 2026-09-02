@@ -1,12 +1,14 @@
 /**
  * GIS Map panel for the Dashboard.
+ * Fetches villages from GET /api/villages and passes them to GisMap.
  * Embedded MapLibre map with risk-level toggles, district filter, zoom controls, and legend.
  */
 import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import MapFilterButton from "../ui/MapFilterButton.jsx";
 import Icon from "../ui/Icon.jsx";
 import GisMap from "../ui/GisMap.jsx";
-import villageData from "../../../mockData/habitations.json";
+import { apiFetch } from "../../lib/api.js";
 
 const FILTERS = [
   { key: "RED", label: "RED Risk", color: "bg-severity-red" },
@@ -20,10 +22,15 @@ export default function MapPanel() {
   );
   const [selectedDistrict, setSelectedDistrict] = useState(null);
 
+  const { data: villages = [] } = useQuery({
+    queryKey: ["villages"],
+    queryFn: () => apiFetch("/api/villages"),
+  });
+
   const districts = useMemo(() => {
-    const set = new Set(villageData.map((v) => v.district));
+    const set = new Set(villages.map((v) => v.district));
     return ["All", ...Array.from(set).sort()];
-  }, []);
+  }, [villages]);
 
   const toggleRisk = (level) => {
     setActiveRiskLevels((prev) => {
@@ -88,8 +95,8 @@ export default function MapPanel() {
         </div>
       </div>
 
-      {/* Map */}
-      <GisMap height="100%" activeRiskLevels={activeRiskLevels} district={selectedDistrict} />
+      {/* Map — villages from API */}
+      <GisMap height="100%" activeRiskLevels={activeRiskLevels} district={selectedDistrict} villages={villages} />
     </div>
   );
 }

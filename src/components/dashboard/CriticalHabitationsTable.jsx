@@ -1,9 +1,14 @@
 /**
  * Critical Habitations side panel.
- * Displays a scrollable table of high-risk villages with scores and population.
+ * Fetches villages from GET /api/villages and shows the top 6 by risk_score.
  */
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Icon from "../ui/Icon.jsx";
+import { SkeletonLoader } from "../ui/SkeletonLoader.jsx";
+import ErrorState from "../ui/ErrorState.jsx";
+import { apiFetch } from "../../lib/api.js";
 
 const SEVERITY_COLORS = {
   RED: "text-severity-red",
@@ -11,17 +16,14 @@ const SEVERITY_COLORS = {
   GREEN: "text-severity-green",
 };
 
-const HABITATIONS = [
-  { village: "Kunchithanny", score: 0.91, population: "1,240", risk_level: "RED" },
-  { village: "Edamalakudy", score: 0.87, population: "850", risk_level: "RED" },
-  { village: "Vagapparai", score: 0.78, population: "420", risk_level: "ORANGE" },
-  { village: "Panchali Medu", score: 0.72, population: "2,100", risk_level: "ORANGE" },
-  { village: "Chempakapara", score: 0.68, population: "340", risk_level: "ORANGE" },
-  { village: "Petti Mundakkayam", score: 0.64, population: "980", risk_level: "ORANGE" },
-];
-
 export default function CriticalHabitationsTable() {
   const [selectedVillage, setSelectedVillage] = useState(null);
+  const navigate = useNavigate();
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["villages"],
+    queryFn: () => apiFetch("/api/villages"),
+  });
 
   return (
     <div className="bg-surface-base border border-border-subtle rounded-[4px] flex flex-col h-full overflow-hidden">
@@ -35,32 +37,42 @@ export default function CriticalHabitationsTable() {
 
       {/* Table */}
       <div className="flex-1 overflow-y-auto">
-        <table className="w-full text-left font-label-md text-label-md">
-          <thead className="sticky top-0 bg-surface-container-high border-b border-border-subtle text-on-surface-variant text-[10px] uppercase tracking-wider">
-            <tr>
-              <th className="px-3 py-2 font-medium">Village</th>
-              <th className="px-3 py-2 font-medium text-center">Score</th>
-              <th className="px-3 py-2 font-medium text-right">Pop.</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border-subtle">
-            {HABITATIONS.map((row) => (
-              <tr
-                key={row.village}
-                onClick={() => setSelectedVillage(row.village)}
-                className={`hover:bg-surface-variant transition-colors cursor-pointer ${
-                  selectedVillage === row.village ? "bg-surface-variant" : ""
-                }`}
-              >
-                <td className="px-3 py-2 text-primary">{row.village}</td>
-                <td className={`px-3 py-2 text-center font-bold font-mono ${SEVERITY_COLORS[row.risk_level]}`}>
-                  {row.score}
-                </td>
-                <td className="px-3 py-2 text-right">{row.population}</td>
+        {isLoading ? (
+          <div className="p-3">
+            <SkeletonLoader rows={6} />
+          </div>
+        ) : error ? (
+          <div className="p-3">
+            <ErrorState onRetry={() => refetch()} />
+          </div>
+        ) : (
+          <table className="w-full text-left font-label-md text-label-md">
+            <thead className="sticky top-0 bg-surface-container-high border-b border-border-subtle text-on-surface-variant text-[10px] uppercase tracking-wider">
+              <tr>
+                <th className="px-3 py-2 font-medium">Village</th>
+                <th className="px-3 py-2 font-medium text-center">Score</th>
+                <th className="px-3 py-2 font-medium text-right">Pop.</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-border-subtle">
+              {data?.slice(0, 6).map((v) => (
+                <tr
+                  key={v.village_id}
+                  onClick={() => navigate(`/villages/${v.village_id}`)}
+                  className={`hover:bg-surface-variant transition-colors cursor-pointer ${
+                    selectedVillage === v.village_id ? "bg-surface-variant" : ""
+                  }`}
+                >
+                  <td className="px-3 py-2 text-primary">{v.name}</td>
+                  <td className={`px-3 py-2 text-center font-bold font-mono ${SEVERITY_COLORS[v.risk_level]}`}>
+                    {v.risk_score}
+                  </td>
+                  <td className="px-3 py-2 text-right">{v.population.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

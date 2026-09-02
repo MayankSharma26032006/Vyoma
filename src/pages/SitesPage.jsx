@@ -1,6 +1,13 @@
+/**
+ * Relocation Sites table page.
+ * Fetches from GET /api/sites instead of local mock data.
+ */
 import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Icon from "../components/ui/Icon.jsx";
-import siteData from "../../mockData/relocationSites.json";
+import { SkeletonLoader } from "../components/ui/SkeletonLoader.jsx";
+import ErrorState from "../components/ui/ErrorState.jsx";
+import { apiFetch } from "../lib/api.js";
 import { useSelection } from "../context/SelectionContext.jsx";
 
 const INFRA_KEYS = [
@@ -16,6 +23,18 @@ function suitabilityTier(score) {
   if (score >= 80) return { label: "High", color: "text-severity-green" };
   if (score >= 60) return { label: "Medium", color: "text-severity-amber" };
   return { label: "Low", color: "text-severity-red" };
+}
+
+/**
+ * Ensure infrastructure is a real object, not a JSON string.
+ * Prisma Json fields should parse automatically, but add a safety net.
+ */
+function parseInfrastructure(raw) {
+  if (raw && typeof raw === "object" && !Array.isArray(raw)) return raw;
+  if (typeof raw === "string") {
+    try { return JSON.parse(raw); } catch { return {}; }
+  }
+  return {};
 }
 
 function SortIcon({ column, sortConfig }) {
@@ -38,19 +57,38 @@ function FilterChip({ label, active, onClick, colorClass }) {
   );
 }
 
+function SkeletonRow() {
+  return (
+    <tr className="border-b border-[#1E2330]">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <td key={i} className="px-4 py-3"><div className="h-4 bg-[#1A1E28] rounded-[2px] animate-pulse w-3/4" /></td>
+      ))}
+    </tr>
+  );
+}
+
 export default function SitesPage() {
   const { selectedState, selectedDistrict } = useSelection();
   const [sortConfig, setSortConfig] = useState({ key: "site_id", direction: "asc" });
   const [filters, setFilters] = useState({ suitability: null });
 
-  const regionFiltered = useMemo(() => siteData.filter(s => {
-    if (selectedState && s.state !== selectedState) return false;
-    if (selectedDistrict && s.district !== selectedDistrict) return false;
-    return true;
-  }), [selectedState, selectedDistrict]);
+  const queryParams = useMemo(() => {
+    const params = new URLSearchParams();
+    if (selectedDistrict) params.set("district", selectedDistrict);
+    else if (selectedState) params.set("state", selectedState);
+    return params.toString();
+  }, [selectedState, selectedDistrict]);
+
+  const { data: rawSites = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["sites", queryParams],
+    queryFn: () => apiFetch(`/api/sites${queryParams ? `?${queryParams}` : ""}`),
+  });
+
+  // Ensure infrastructure is parsed on each site
+  const siteData = useMemo(() => rawSites.map((s) => ({ ...s, infrastructure: parseInfrastructure(s.infrastructure) })), [rawSites]);
 
   const sites = useMemo(() => {
-    let result = [...regionFiltered];
+    let result = [...siteData];
 
     if (filters.suitability) {
       result = result.filter((s) => {
@@ -71,7 +109,7 @@ export default function SitesPage() {
     });
 
     return result;
-  }, [sortConfig, filters, regionFiltered]);
+  }, [sortConfig, filters, siteData]);
 
   function handleSort(key) {
     setSortConfig((prev) => ({
@@ -103,7 +141,7 @@ export default function SitesPage() {
         </div>
         <div className="flex items-center gap-2 text-phase-text-secondary bg-phase-elevated px-3 py-1 border border-[#1E2330] rounded-[2px]">
           <Icon name="sync" className="text-[14px]" />
-          <span className="text-[12px] font-mono">{sites.length} sites</span>
+          <span className="text-[12px] font-mono">{isLoading ? "..." : `${sites.length} sites`}</span>
         </div>
       </div>
 
@@ -128,7 +166,13 @@ export default function SitesPage() {
 
       {/* Table */}
       <div className="bg-phase-elevated rounded-[4px] border border-[#1E2330] overflow-hidden">
-        {sites.length === 0 ? (
+        {isLoading ? (
+          <table className="w-full text-left">
+            <tbody>{Array.from({ length: 8 }).map((_, i) => <SkeletonRow key={i} />)}</tbody>
+          </table>
+        ) : error ? (
+          <ErrorState onRetry={() => refetch()} />
+        ) : sites.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <Icon name="location_off" className="text-[48px] text-phase-text-secondary mb-3" />
             <p className="text-[14px] text-phase-text-secondary mb-3">No relocation sites registered for this district</p>
@@ -151,7 +195,7 @@ export default function SitesPage() {
             <tbody>
               {sites.map((s) => {
                 const tier = suitabilityTier(s.suitability_score);
-                const occupiedPct = Math.round((s.occupied / s.total_capacity) * 100);
+                const infra = parseInfrastructure(s.infrastructure);
                 return (
                   <tr key={s.site_id} className="border-b border-[#1E2330] hover:bg-phase-card/50 transition-colors">
                     <td className="px-4 py-3 font-mono text-[13px] text-phase-text">{s.site_id}</td>
@@ -169,11 +213,11 @@ export default function SitesPage() {
                     <td className="px-4 py-3 font-mono text-[13px] text-phase-text">{s.available.toLocaleString()}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
-                        {INFRA_KEYS.map((infra) => (
-                          <span key={infra.key} title={infra.label}>
+                        {INFRA_KEYS.map((infraKey) => (
+                          <span key={infraKey.key} title={infraKey.label}>
                             <Icon
-                              name={s.infrastructure[infra.key] ? "check_circle" : "cancel"}
-                              className={`text-[14px] ${s.infrastructure[infra.key] ? "text-severity-green" : "text-phase-text-secondary/30"}`}
+                              name={infra[infraKey.key] ? "check_circle" : "cancel"}
+                              className={`text-[14px] ${infra[infraKey.key] ? "text-severity-green" : "text-phase-text-secondary/30"}`}
                             />
                           </span>
                         ))}

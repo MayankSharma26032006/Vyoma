@@ -1,7 +1,13 @@
+/**
+ * Village Details page.
+ * Fetches from GET /api/villages/:id using the village_id route param.
+ */
 import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Icon from "../components/ui/Icon.jsx";
-import villageData from "../../mockData/habitations.json";
-import { useSelection } from "../context/SelectionContext.jsx";
+import { SkeletonLoader } from "../components/ui/SkeletonLoader.jsx";
+import ErrorState from "../components/ui/ErrorState.jsx";
+import { apiFetch } from "../lib/api.js";
 
 // Risk level: RED/ORANGE/GREEN
 const RISK_LEVEL_COLORS = {
@@ -25,6 +31,18 @@ const IMPACT_COLORS = {
   low: "text-phase-text-secondary border border-[#2A3040]",
 };
 
+/**
+ * Ensure top_factors is a real array.
+ * Prisma Json fields *should* parse automatically, but add a safety net.
+ */
+function parseFactors(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (typeof raw === "string") {
+    try { return JSON.parse(raw); } catch { return []; }
+  }
+  return [];
+}
+
 function MiniMapPlaceholder({ name }) {
   return (
     <div className="bg-phase-card rounded-[4px] border border-[#1E2330] h-[180px] flex flex-col items-center justify-center relative overflow-hidden">
@@ -41,19 +59,20 @@ function MiniMapPlaceholder({ name }) {
 }
 
 function TopFactorsList({ factors }) {
-  if (!factors || factors.length === 0) return null;
+  const parsed = parseFactors(factors);
+  if (parsed.length === 0) return null;
   return (
     <div className="bg-phase-elevated rounded-[4px] border border-[#1E2330] p-4">
       <h3 className="text-[13px] font-semibold text-phase-text mb-3 flex items-center gap-2">
         <Icon name="analytics" className="text-[16px] text-phase-text-secondary" />Top Contributing Factors
       </h3>
       <div className="space-y-2">
-        {factors.map((f, i) => (
+        {parsed.map((f, i) => (
           <div key={i} className="flex items-center gap-3">
             <span className="text-[12px] font-mono text-phase-text-secondary w-[16px] shrink-0">{i + 1}.</span>
             <span className="text-[13px] text-phase-text flex-1">{f.feature}</span>
             <span className="text-[12px] font-mono text-phase-text-secondary">{f.value}</span>
-            <span className={`inline-block px-2 py-0.5 rounded-[2px] text-[10px] font-mono ${IMPACT_COLORS[f.impact]}`}>{f.impact}</span>
+            <span className={`inline-block px-2 py-0.5 rounded-[2px] text-[10px] font-mono ${IMPACT_COLORS[f.impact] || IMPACT_COLORS.low}`}>{f.impact}</span>
           </div>
         ))}
       </div>
@@ -70,28 +89,67 @@ function LowConfidenceBadge() {
   );
 }
 
+function LoadingSkeleton() {
+  return (
+    <main className="flex-1 overflow-y-auto bg-phase-bg p-6">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="mb-6 animate-pulse">
+          <div className="h-4 w-20 bg-phase-card rounded-[2px] mb-3" />
+          <div className="h-8 w-48 bg-phase-card rounded-[2px]" />
+          <div className="h-4 w-32 bg-phase-card rounded-[2px] mt-2" />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6">
+          <div className="flex flex-col gap-4">
+            <div className="h-[180px] bg-phase-card rounded-[4px] animate-pulse" />
+            <div className="h-32 bg-phase-card rounded-[4px] animate-pulse" />
+            <div className="h-32 bg-phase-card rounded-[4px] animate-pulse" />
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="h-40 bg-phase-card rounded-[4px] animate-pulse" />
+            <div className="h-48 bg-phase-card rounded-[4px] animate-pulse" />
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function NotFound({ id }) {
+  return (
+    <main className="flex-1 overflow-y-auto bg-phase-bg p-6 flex items-center justify-center">
+      <div className="text-center">
+        <Icon name="error_outline" className="text-[48px] text-phase-text-secondary mb-3 block mx-auto" />
+        <h2 className="text-lg text-phase-text mb-1">Village not found</h2>
+        <p className="text-sm text-phase-text-secondary mb-4">No village matches ID: {id}</p>
+        <Link to="/villages" className="px-4 py-2 rounded-[2px] border border-[#2A3040] text-phase-text-secondary text-[13px] font-mono hover:bg-phase-elevated transition-colors">Back to Villages</Link>
+      </div>
+    </main>
+  );
+}
+
 export default function HabitationDetailPage() {
   const { id } = useParams();
-  const { selectedState, selectedDistrict } = useSelection();
-  const hab = villageData.find(v => {
-    if (v.village_id !== id) return false;
-    if (selectedState && v.state !== selectedState) return false;
-    if (selectedDistrict && v.district !== selectedDistrict) return false;
-    return true;
+
+  const { data: hab, isLoading, error, refetch } = useQuery({
+    queryKey: ["village", id],
+    queryFn: () => apiFetch(`/api/villages/${id}`),
+    retry: false,
   });
 
-  if (!hab) {
+  if (isLoading) return <LoadingSkeleton />;
+
+  // API returns 404 → fetch throws, or returns { error: "Village not found" }
+  if (error) {
+    const is404 = error.message?.includes("404");
+    if (is404) return <NotFound id={id} />;
     return (
-      <main className="flex-1 overflow-y-auto bg-phase-bg p-6 flex items-center justify-center">
-        <div className="text-center">
-          <Icon name="error_outline" className="text-[48px] text-phase-text-secondary mb-3 block mx-auto" />
-          <h2 className="text-lg text-phase-text mb-1">Village not found</h2>
-          <p className="text-sm text-phase-text-secondary mb-4">No village matches ID: {id}</p>
-          <Link to="/villages" className="px-4 py-2 rounded-[2px] border border-[#2A3040] text-phase-text-secondary text-[13px] font-mono hover:bg-phase-elevated transition-colors">Back to Villages</Link>
-        </div>
+      <main className="flex-1 overflow-y-auto bg-phase-bg p-6">
+        <ErrorState onRetry={() => refetch()} />
       </main>
     );
   }
+
+  if (!hab) return <NotFound id={id} />;
 
   return (
     <main className="flex-1 overflow-y-auto bg-phase-bg p-6">
@@ -127,6 +185,8 @@ export default function HabitationDetailPage() {
               <div className="space-y-2">
                 <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">Village</span><span className="text-[13px] text-phase-text">{hab.name}</span></div>
                 <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">Coordinates</span><span className="text-[13px] text-phase-text font-mono">{hab.latitude.toFixed(4)}, {hab.longitude.toFixed(4)}</span></div>
+                <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">District</span><span className="text-[13px] text-phase-text">{hab.district}</span></div>
+                <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">State</span><span className="text-[13px] text-phase-text">{hab.state}</span></div>
               </div>
             </div>
 
@@ -137,7 +197,7 @@ export default function HabitationDetailPage() {
               </h3>
               <div className="space-y-2">
                 <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">Population</span><span className="text-[13px] text-phase-text font-mono">{hab.population.toLocaleString()}</span></div>
-                <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">Households</span><span className="text-[13px] text-phase-text font-mono">{hab.households.toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">Vulnerability Multiplier</span><span className="text-[13px] text-phase-text font-mono">{hab.vulnerability_multiplier}x</span></div>
               </div>
             </div>
 
@@ -156,6 +216,17 @@ export default function HabitationDetailPage() {
                   <span className="text-[12px] font-mono text-phase-text-secondary">No suitable site identified</span>
                 </div>
               )}
+            </div>
+
+            {/* Model Info */}
+            <div className="bg-phase-elevated rounded-[4px] border border-[#1E2330] p-4">
+              <h3 className="text-[13px] font-semibold text-phase-text mb-3 flex items-center gap-2">
+                <Icon name="science" className="text-[16px] text-phase-text-secondary" />Model
+              </h3>
+              <div className="space-y-2">
+                <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">Version</span><span className="text-[13px] text-phase-text font-mono">{hab.model_version}</span></div>
+                <div className="flex justify-between"><span className="text-[13px] text-phase-text-secondary">Predicted</span><span className="text-[13px] text-phase-text font-mono">{new Date(hab.prediction_timestamp).toLocaleDateString()}</span></div>
+              </div>
             </div>
           </div>
 
@@ -183,7 +254,7 @@ export default function HabitationDetailPage() {
               </div>
             </div>
 
-            {/* Top Contributing Factors — replaces old Hazard Exposure + Vulnerability Factors */}
+            {/* Top Contributing Factors */}
             <TopFactorsList factors={hab.top_factors} />
           </div>
         </div>

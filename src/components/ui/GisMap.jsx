@@ -1,7 +1,7 @@
 import { useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import * as maplibregl from "maplibre-gl";
-import villageData from "../../../mockData/habitations.json";
+import defaultVillageData from "../../../mockData/habitations.json";
 
 const RISK_COLORS = {
   RED: "#DC2626",
@@ -16,10 +16,10 @@ const DEFAULT_ZOOM = 11;
 /**
  * Build GeoJSON FeatureCollection from village data.
  */
-function buildVillageGeoJSON() {
+function buildVillageGeoJSON(data) {
   return {
     type: "FeatureCollection",
-    features: villageData.map((v) => ({
+    features: data.map((v) => ({
       type: "Feature",
       geometry: { type: "Point", coordinates: [v.longitude, v.latitude] },
       properties: {
@@ -91,7 +91,10 @@ export default function GisMap({
   showControls = true,
   showPopups = true,
   externalMapRef,
+  villages = null,
 }) {
+  // Use prop villages if provided, otherwise fall back to static import
+  const villageData = villages || defaultVillageData;
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]); // { marker, village }
@@ -159,7 +162,7 @@ export default function GisMap({
     }
 
     map.on("load", () => {
-      const geojson = buildVillageGeoJSON();
+      const geojson = buildVillageGeoJSON(villageData);
 
       map.addSource("villages", {
         type: "geojson",
