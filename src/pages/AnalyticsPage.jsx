@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   BarChart,
   Bar,
@@ -10,9 +11,10 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import villageData from "../../mockData/habitations.json";
-import siteData from "../../mockData/relocationSites.json";
+import { apiFetch } from "../lib/api.js";
 import { useSelection } from "../context/SelectionContext.jsx";
+import { SkeletonLoader, SkeletonCards } from "../components/ui/SkeletonLoader.jsx";
+import ErrorState from "../components/ui/ErrorState.jsx";
 
 /* ─── Chart color tokens (Section 5.1 + Section 8) ─── */
 const RISK_COLORS = {
@@ -167,17 +169,37 @@ function capacityTierColor(pct) {
 export default function AnalyticsPage() {
   const { selectedState, selectedDistrict } = useSelection();
 
-  const filteredVillages = useMemo(() => villageData.filter(v => {
-    if (selectedState && v.state !== selectedState) return false;
-    if (selectedDistrict && v.district !== selectedDistrict) return false;
-    return true;
-  }), [selectedState, selectedDistrict]);
+  const villageQueryParams = useMemo(() => {
+    const p = new URLSearchParams();
+    if (selectedDistrict) p.set("district", selectedDistrict);
+    else if (selectedState) p.set("state", selectedState);
+    return p.toString();
+  }, [selectedState, selectedDistrict]);
 
-  const filteredSites = useMemo(() => siteData.filter(s => {
-    if (selectedState && s.state !== selectedState) return false;
-    if (selectedDistrict && s.district !== selectedDistrict) return false;
-    return true;
-  }), [selectedState, selectedDistrict]);
+  const siteQueryParams = useMemo(() => {
+    const p = new URLSearchParams();
+    if (selectedDistrict) p.set("district", selectedDistrict);
+    else if (selectedState) p.set("state", selectedState);
+    return p.toString();
+  }, [selectedState, selectedDistrict]);
+
+  const villageQS = villageQueryParams ? `?${villageQueryParams}` : "";
+  const siteQS = siteQueryParams ? `?${siteQueryParams}` : "";
+
+  const { data: villages = [], isLoading: villagesLoading, error: villagesError, refetch: refetchVillages } = useQuery({
+    queryKey: ["villages", "analytics", villageQS],
+    queryFn: () => apiFetch(`/api/villages${villageQS}`),
+    staleTime: 30_000,
+  });
+
+  const { data: sites = [], isLoading: sitesLoading, error: sitesError, refetch: refetchSites } = useQuery({
+    queryKey: ["sites", "analytics", siteQS],
+    queryFn: () => apiFetch(`/api/sites${siteQS}`),
+    staleTime: 30_000,
+  });
+
+  const filteredVillages = villages;
+  const filteredSites = sites;
 
   const riskData = useMemo(() => aggregateRiskLevels(filteredVillages), [filteredVillages]);
   const priorityData = useMemo(() => aggregatePriorities(filteredVillages), [filteredVillages]);
@@ -186,10 +208,52 @@ export default function AnalyticsPage() {
   const capacityData = useMemo(() => siteCapacityData(filteredSites), [filteredSites]);
   const factorData = useMemo(() => aggregateTopFactors(filteredVillages), [filteredVillages]);
 
+  const isLoading = villagesLoading || sitesLoading;
+  const error = villagesError || sitesError;
+
+  const subtitle = useMemo(() => {
+    if (selectedDistrict) return `${selectedState || ""} / ${selectedDistrict}`;
+    if (selectedState) return selectedState;
+    return "All regions";
+  }, [selectedState, selectedDistrict]);
+
   const totalPop = filteredVillages.reduce((s, v) => s + v.population, 0);
   const redPop = filteredVillages.filter((v) => v.risk_level === "RED").reduce((s, v) => s + v.population, 0);
   const avgRisk = filteredVillages.length > 0 ? (filteredVillages.reduce((s, v) => s + v.risk_score, 0) / filteredVillages.length).toFixed(2) : "0.00";
   const lowConfCount = filteredVillages.filter((v) => v.low_confidence).length;
+
+  if (isLoading) {
+    return (
+      <main className="flex-1 overflow-y-auto bg-phase-bg p-6">
+        <div className="flex items-end justify-between border-b border-[#1E2330] pb-3 mb-6">
+          <div>
+            <h2 className="text-[20px] font-semibold text-phase-text">Analytics</h2>
+            <div className="h-4 w-64 bg-surface-container-high rounded-[2px] mt-2 animate-pulse" />
+          </div>
+        </div>
+        <SkeletonCards count={5} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <div className="bg-phase-elevated rounded-[4px] border border-[#1E2330] p-5 h-[280px] animate-pulse" />
+          <div className="bg-phase-elevated rounded-[4px] border border-[#1E2330] p-5 h-[280px] animate-pulse" />
+        </div>
+        <div className="mt-8"><SkeletonBars count={4} /></div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="flex-1 overflow-y-auto bg-phase-bg p-6">
+        <div className="flex items-end justify-between border-b border-[#1E2330] pb-3 mb-6">
+          <div>
+            <h2 className="text-[20px] font-semibold text-phase-text">Analytics</h2>
+            <p className="text-[13px] text-phase-text-secondary mt-1">{subtitle}</p>
+          </div>
+        </div>
+        <ErrorState onRetry={() => { refetchVillages(); refetchSites(); }} />
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 overflow-y-auto bg-phase-bg p-6">
@@ -198,7 +262,7 @@ export default function AnalyticsPage() {
         <div>
           <h2 className="text-[20px] font-semibold text-phase-text">Analytics</h2>
           <p className="text-[13px] text-phase-text-secondary mt-1">
-            Risk distribution and capacity trends — Idukki district
+            Risk distribution and capacity trends — {subtitle}
           </p>
         </div>
         <div className="flex items-center gap-2 text-phase-text-secondary bg-phase-elevated px-3 py-1 border border-[#1E2330] rounded-[2px]">

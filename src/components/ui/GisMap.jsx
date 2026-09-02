@@ -1,7 +1,6 @@
 import { useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import * as maplibregl from "maplibre-gl";
-import defaultVillageData from "../../../mockData/habitations.json";
 
 const RISK_COLORS = {
   RED: "#DC2626",
@@ -93,8 +92,7 @@ export default function GisMap({
   externalMapRef,
   villages = null,
 }) {
-  // Use prop villages if provided, otherwise fall back to static import
-  const villageData = villages || defaultVillageData;
+  const villageData = villages || [];
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]); // { marker, village }

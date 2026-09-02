@@ -1,9 +1,11 @@
 import { useState, useMemo, useRef, useCallback } from "react";
-import * as maplibregl from "maplibre-gl";
+import { useQuery } from "@tanstack/react-query";
+import { useSelection } from "../context/SelectionContext.jsx";
+import { apiFetch } from "../lib/api.js";
 import GisMap from "../components/ui/GisMap.jsx";
 import MapFilterButton from "../components/ui/MapFilterButton.jsx";
+import ErrorState from "../components/ui/ErrorState.jsx";
 import Icon from "../components/ui/Icon.jsx";
-import villageData from "../../mockData/habitations.json";
 
 const FILTERS = [
   { key: "RED", label: "RED Risk", color: "bg-severity-red" },
@@ -12,17 +14,40 @@ const FILTERS = [
 ];
 
 export default function MapPage() {
+  const { selectedState, selectedDistrict } = useSelection();
   const [activeRiskLevels, setActiveRiskLevels] = useState(
     new Set(["RED", "ORANGE", "GREEN"])
   );
-  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [mapDistrict, setMapDistrict] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const mapRef = useRef(null);
 
+  // Build query params from SelectionContext
+  const queryParams = useMemo(() => {
+    const params = new URLSearchParams();
+    if (selectedDistrict) params.set("district", selectedDistrict);
+    else if (selectedState) params.set("state", selectedState);
+    return params.toString();
+  }, [selectedState, selectedDistrict]);
+
+  const queryString = queryParams ? `?${queryParams}` : "";
+
+  const {
+    data: villages = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["villages", "map", queryString],
+    queryFn: () => apiFetch(`/api/villages${queryString}`),
+    staleTime: 30_000,
+  });
+
+  // Derive district list from fetched data
   const districts = useMemo(() => {
-    const set = new Set(villageData.map((v) => v.district));
+    const set = new Set(villages.map((v) => v.district));
     return ["All", ...Array.from(set).sort()];
-  }, []);
+  }, [villages]);
 
   const toggleRisk = (level) => {
     setActiveRiskLevels((prev) => {
@@ -36,7 +61,7 @@ export default function MapPage() {
   const handleSearch = useCallback(() => {
     if (!mapRef.current || !searchQuery.trim()) return;
     const q = searchQuery.trim().toLowerCase();
-    const match = villageData.find((v) => v.name.toLowerCase().includes(q));
+    const match = villages.find((v) => v.name.toLowerCase().includes(q));
     if (match) {
       mapRef.current.flyTo({
         center: [match.longitude, match.latitude],
@@ -44,11 +69,79 @@ export default function MapPage() {
         duration: 1000,
       });
     }
-  }, [searchQuery]);
+  }, [searchQuery, villages]);
 
   const handleSearchKeyDown = (e) => {
     if (e.key === "Enter") handleSearch();
   };
+
+  // Dynamic subtitle
+  const subtitle = useMemo(() => {
+    if (selectedDistrict) return `${selectedState || ""} / ${selectedDistrict}`;
+    if (selectedState) return selectedState;
+    return "All regions";
+  }, [selectedState, selectedDistrict]);
+
+  // Loading state — full-page skeleton with filter bar placeholder
+  if (isLoading) {
+    return (
+      <main className="flex-1 overflow-hidden bg-phase-bg flex flex-col">
+        <div className="flex items-end justify-between border-b border-[#1E2330] pb-3 px-6 pt-6">
+          <div>
+            <h2 className="text-[20px] font-semibold text-phase-text">Hazard Map</h2>
+            <div className="h-4 w-48 bg-surface-container-high rounded-[2px] mt-2 animate-pulse" />
+          </div>
+        </div>
+        <div className="flex-1 p-6 pt-4 relative">
+          <div className="w-full h-full bg-surface-container-high rounded-[4px] animate-pulse flex items-center justify-center">
+            <Icon name="map" className="text-[48px] text-phase-text-secondary/30" />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <main className="flex-1 overflow-hidden bg-phase-bg flex flex-col">
+        <div className="flex items-end justify-between border-b border-[#1E2330] pb-3 px-6 pt-6">
+          <div>
+            <h2 className="text-[20px] font-semibold text-phase-text">Hazard Map</h2>
+            <p className="text-[13px] text-phase-text-secondary mt-1">{subtitle}</p>
+          </div>
+        </div>
+        <div className="flex-1 p-6 pt-4 flex items-center justify-center">
+          <ErrorState onRetry={() => refetch()} />
+        </div>
+      </main>
+    );
+  }
+
+  // Empty state
+  if (villages.length === 0) {
+    return (
+      <main className="flex-1 overflow-hidden bg-phase-bg flex flex-col">
+        <div className="flex items-end justify-between border-b border-[#1E2330] pb-3 px-6 pt-6">
+          <div>
+            <h2 className="text-[20px] font-semibold text-phase-text">Hazard Map</h2>
+            <p className="text-[13px] text-phase-text-secondary mt-1">{subtitle}</p>
+          </div>
+        </div>
+        <div className="flex-1 p-6 pt-4 flex items-center justify-center">
+          <div className="text-center">
+            <Icon name="map_off" className="text-[48px] text-phase-text-secondary/40 mb-3" />
+            <p className="text-phase-text-secondary font-body-md text-body-md">
+              No village data for this region
+            </p>
+            <p className="text-phase-text-secondary/60 font-body-md text-[13px] mt-1">
+              Select a different state or district, or ensure the backend is running.
+            </p>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 overflow-hidden bg-phase-bg flex flex-col">
@@ -57,8 +150,13 @@ export default function MapPage() {
         <div>
           <h2 className="text-[20px] font-semibold text-phase-text">Hazard Map</h2>
           <p className="text-[13px] text-phase-text-secondary mt-1">
-            Village-level risk visualization — Idukki district
+            Village-level risk visualization — {subtitle}
           </p>
+        </div>
+        <div className="flex items-center gap-2 text-phase-text-secondary bg-phase-bg px-3 py-1 border border-[#1E2330] rounded-[4px]">
+          <span className="font-label-sm text-[11px]">
+            {villages.length} villages
+          </span>
         </div>
       </div>
 
@@ -82,8 +180,8 @@ export default function MapPage() {
           <div className="bg-surface-container/90 backdrop-blur-sm border border-border-subtle rounded-[4px] px-2 py-1 shadow-xl flex items-center gap-1.5">
             <Icon name="filter_list" className="text-[14px] text-on-surface-variant" />
             <select
-              value={selectedDistrict || ""}
-              onChange={(e) => setSelectedDistrict(e.target.value || null)}
+              value={mapDistrict || ""}
+              onChange={(e) => setMapDistrict(e.target.value || null)}
               className="bg-transparent text-on-surface font-label-sm text-label-sm border-none outline-none cursor-pointer appearance-none pr-1"
             >
               {districts.map((d) => (
@@ -141,8 +239,9 @@ export default function MapPage() {
           height="100%"
           className="rounded-[4px] border border-[#1E2330]"
           activeRiskLevels={activeRiskLevels}
-          district={selectedDistrict}
+          district={mapDistrict}
           externalMapRef={mapRef}
+          villages={villages}
         />
       </div>
     </main>
