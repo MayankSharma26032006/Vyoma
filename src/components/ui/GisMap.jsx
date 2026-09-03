@@ -12,9 +12,16 @@ const RISK_COLORS = {
 const DEFAULT_CENTER = [77.18, 9.83];
 const DEFAULT_ZOOM = 11;
 
+const HEATMAP_LAYER_ID = "villages-heatmap";
 const CIRCLE_LAYER_ID = "villages-circle";
 const RED_HALO_LAYER_ID = "villages-red-halo";
 const VILLAGE_SOURCE_ID = "villages";
+
+// Zoom ranges for heatmap-to-circle crossfade
+const HEATMAP_MINZOOM = 0;
+const HEATMAP_FADE_START = 11;
+const HEATMAP_FADE_END = 13;
+const CIRCLE_MINZOOM = 11.5;
 
 /**
  * Build GeoJSON FeatureCollection from village data.
@@ -115,10 +122,17 @@ export default function GisMap({
   const riskKey = Array.from(activeRiskLevels).sort().join(",");
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !map.getLayer(CIRCLE_LAYER_ID)) return;
+    if (!map) return;
     const filter = buildFilterExpression(activeRiskLevels, district);
-    map.setFilter(CIRCLE_LAYER_ID, filter);
-    map.setFilter(RED_HALO_LAYER_ID, filter ? ["all", filter, ["==", ["get", "risk_level"], "RED"]] : ["==", ["get", "risk_level"], "RED"]);
+    [HEATMAP_LAYER_ID, CIRCLE_LAYER_ID, RED_HALO_LAYER_ID].forEach((layerId) => {
+      if (!map.getLayer(layerId)) return;
+      if (layerId === RED_HALO_LAYER_ID) {
+        // Halo is always RED-only, intersect with user filter
+        map.setFilter(layerId, filter ? ["all", filter, ["==", ["get", "risk_level"], "RED"]] : ["==", ["get", "risk_level"], "RED"]);
+      } else {
+        map.setFilter(layerId, filter);
+      }
+    });
   }, [riskKey, district]);
 
   const handlePopupNavigate = useCallback(
@@ -168,11 +182,46 @@ export default function GisMap({
         data: geojson,
       });
 
+      // --- Heatmap layer (visible when zoomed out) ---
+      map.addLayer({
+        id: HEATMAP_LAYER_ID,
+        type: "heatmap",
+        source: VILLAGE_SOURCE_ID,
+        maxzoom: HEATMAP_FADE_END,
+        paint: {
+          // Weight by risk_score so high-risk villages produce more heat
+          "heatmap-weight": ["get", "risk_score"],
+          // Intensity scales with zoom for denser appearance at closer zoom
+          "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 0, 0.6, 12, 2],
+          // Color ramp: transparent -> amber -> orange -> red
+          "heatmap-color": [
+            "interpolate",
+            ["linear"],
+            ["heatmap-density"],
+            0, "rgba(0,0,0,0)",
+            0.15, "rgba(217,119,6,0.3)",
+            0.4, "rgba(234,88,12,0.5)",
+            0.7, "rgba(220,38,38,0.7)",
+            1, "rgba(220,38,38,0.9)",
+          ],
+          // Smooth opacity crossfade: full at low zoom, fade out as circles appear
+          "heatmap-opacity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            HEATMAP_FADE_START, 1,
+            HEATMAP_FADE_END, 0,
+          ],
+          "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 0, 8, 12, 22],
+        },
+      });
+
       // --- RED pulse halo layer (behind main circles, larger + lower opacity) ---
       map.addLayer({
         id: RED_HALO_LAYER_ID,
         type: "circle",
         source: VILLAGE_SOURCE_ID,
+        minzoom: CIRCLE_MINZOOM,
         filter: ["==", ["get", "risk_level"], "RED"],
         paint: {
           "circle-radius": 16,
@@ -182,11 +231,12 @@ export default function GisMap({
         },
       });
 
-      // --- Main circle layer ---
+      // --- Main circle layer (visible when zoomed in) ---
       map.addLayer({
         id: CIRCLE_LAYER_ID,
         type: "circle",
         source: VILLAGE_SOURCE_ID,
+        minzoom: CIRCLE_MINZOOM,
         paint: {
           "circle-radius": 7,
           "circle-color": [

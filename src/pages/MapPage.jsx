@@ -232,6 +232,12 @@ export default function MapPage() {
               <div className="w-3 h-3 bg-severity-green/40 border border-severity-green rounded-[2px]" />
               <span className="font-label-sm text-label-sm text-on-surface-variant">GREEN Risk</span>
             </div>
+            <div className="border-t border-border-subtle pt-2 mt-1">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-[2px]" style={{background: "linear-gradient(135deg, rgba(234,88,12,0.5), rgba(220,38,38,0.8))"}} />
+                <span className="font-label-sm text-[10px] text-on-surface-variant">Risk density (zoomed out)</span>
+              </div>
+            </div>
           </div>
         </div>
 
