@@ -12,6 +12,10 @@ const RISK_COLORS = {
 const DEFAULT_CENTER = [77.18, 9.83];
 const DEFAULT_ZOOM = 11;
 
+const CIRCLE_LAYER_ID = "villages-circle";
+const RED_HALO_LAYER_ID = "villages-red-halo";
+const VILLAGE_SOURCE_ID = "villages";
+
 /**
  * Build GeoJSON FeatureCollection from village data.
  */
@@ -34,28 +38,29 @@ function buildVillageGeoJSON(data) {
 }
 
 /**
- * Create an HTML marker element for a village.
- * RED markers get a pulsing outer ring via the critical-pulse keyframe.
+ * Build a MapLibre filter expression for risk_level + district.
+ * Returns an expression array usable with map.setFilter().
  */
-function createMarkerEl(risk_level) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "vyoma-marker";
-  wrapper.style.cssText = "width:14px;height:14px;position:relative;cursor:pointer;";
+function buildFilterExpression(activeRiskLevels, district) {
+  const riskList = Array.from(activeRiskLevels);
+  const riskFilter =
+    riskList.length === 3
+      ? null // all visible, no filter needed
+      : ["in", ["get", "risk_level"], ["literal", riskList]];
 
-  if (risk_level === "RED") {
-    const pulse = document.createElement("div");
-    pulse.className = "critical-marker";
-    pulse.style.cssText = `position:absolute;inset:-4px;border-radius:50%;background:${RISK_COLORS.RED}40;`;
-    wrapper.appendChild(pulse);
-  }
+  const districtFilter = district
+    ? ["==", ["get", "district"], district]
+    : null;
 
-  const dot = document.createElement("div");
-  dot.style.cssText = `position:absolute;inset:0;border-radius:50%;background:${RISK_COLORS[risk_level]};border:2px solid ${RISK_COLORS[risk_level]}40;box-shadow:0 0 6px ${RISK_COLORS[risk_level]}80;`;
-  wrapper.appendChild(dot);
-
-  return wrapper;
+  if (riskFilter && districtFilter) return ["all", riskFilter, districtFilter];
+  if (riskFilter) return riskFilter;
+  if (districtFilter) return districtFilter;
+  return null;
 }
 
+/**
+ * Dark-themed popup HTML for a village feature.
+ */
 function buildPopupHTML(props) {
   return `<div style="padding:10px;font-family:Geist,sans-serif;background:#12151C;color:#E8EAED;border-radius:4px;border:1px solid #1E2330;min-width:160px;">
     <div style="font-size:14px;font-weight:500;margin-bottom:2px;">${props.name}</div>
@@ -81,6 +86,7 @@ function buildPopupHTML(props) {
  *   showControls      — show zoom controls (default true)
  *   showPopups        — enable click-to-popup (default true)
  *   externalMapRef    — optional React ref to expose the map instance
+ *   villages          — array of village objects (null = empty)
  */
 export default function GisMap({
   height = "100%",
@@ -95,7 +101,7 @@ export default function GisMap({
   const villageData = villages || [];
   const containerRef = useRef(null);
   const mapRef = useRef(null);
-  const markersRef = useRef([]); // { marker, village }
+  const popupRef = useRef(null);
   const navigate = useNavigate();
 
   // Expose map instance to parent via ref
@@ -105,18 +111,14 @@ export default function GisMap({
     }
   });
 
-  // Filter markers when props change
-  // Serialize Set to string for reliable React dependency tracking
+  // Update filters when risk levels or district change
   const riskKey = Array.from(activeRiskLevels).sort().join(",");
   useEffect(() => {
-    if (!mapRef.current || markersRef.current.length === 0) return;
-    markersRef.current.forEach(({ marker, village }) => {
-      const visible =
-        activeRiskLevels.has(village.risk_level) &&
-        (district === null || village.district === district);
-      marker.getElement().style.visibility = visible ? "visible" : "hidden";
-      marker.getElement().style.pointerEvents = visible ? "auto" : "none";
-    });
+    const map = mapRef.current;
+    if (!map || !map.getLayer(CIRCLE_LAYER_ID)) return;
+    const filter = buildFilterExpression(activeRiskLevels, district);
+    map.setFilter(CIRCLE_LAYER_ID, filter);
+    map.setFilter(RED_HALO_LAYER_ID, filter ? ["all", filter, ["==", ["get", "risk_level"], "RED"]] : ["==", ["get", "risk_level"], "RED"]);
   }, [riskKey, district]);
 
   const handlePopupNavigate = useCallback(
@@ -152,7 +154,6 @@ export default function GisMap({
       center: DEFAULT_CENTER,
       zoom: DEFAULT_ZOOM,
       maxZoom: 18,
-      renderWorldCopies: false,
     });
 
     if (showControls) {
@@ -160,95 +161,119 @@ export default function GisMap({
     }
 
     map.on("load", () => {
+      // --- GeoJSON source (no clustering) ---
       const geojson = buildVillageGeoJSON(villageData);
-
-      map.addSource("villages", {
+      map.addSource(VILLAGE_SOURCE_ID, {
         type: "geojson",
         data: geojson,
-        cluster: true,
-        clusterMaxZoom: 14,
-        clusterRadius: 50,
       });
 
-      // Cluster circles
+      // --- RED pulse halo layer (behind main circles, larger + lower opacity) ---
       map.addLayer({
-        id: "clusters",
+        id: RED_HALO_LAYER_ID,
         type: "circle",
-        source: "villages",
-        filter: ["has", "point_count"],
+        source: VILLAGE_SOURCE_ID,
+        filter: ["==", ["get", "risk_level"], "RED"],
         paint: {
-          "circle-color": "#374151",
-          "circle-stroke-color": "#6B7280",
-          "circle-stroke-width": 1,
-          "circle-radius": ["step", ["get", "point_count"], 15, 10, 20, 30, 25],
+          "circle-radius": 16,
+          "circle-color": RISK_COLORS.RED,
+          "circle-opacity": 0.2,
+          "circle-stroke-width": 0,
         },
       });
 
-      // Cluster count labels
+      // --- Main circle layer ---
       map.addLayer({
-        id: "cluster-count",
-        type: "symbol",
-        source: "villages",
-        filter: ["has", "point_count"],
-        layout: {
-          "text-field": "{point_count_abbreviated}",
-          "text-size": 11,
-        },
+        id: CIRCLE_LAYER_ID,
+        type: "circle",
+        source: VILLAGE_SOURCE_ID,
         paint: {
-          "text-color": "#E8EAED",
+          "circle-radius": 7,
+          "circle-color": [
+            "match",
+            ["get", "risk_level"],
+            "RED", RISK_COLORS.RED,
+            "ORANGE", RISK_COLORS.ORANGE,
+            "GREEN", RISK_COLORS.GREEN,
+            "#9CA3AF", // fallback
+          ],
+          "circle-stroke-color": [
+            "match",
+            ["get", "risk_level"],
+            "RED", "#F87171",
+            "ORANGE", "#FBBF24",
+            "GREEN", "#4ADE80",
+            "#9CA3AF",
+          ],
+          "circle-stroke-width": 2,
         },
       });
 
-      // Add HTML markers for each village
-      villageData.forEach((v) => {
-        const el = createMarkerEl(v.risk_level);
-        const marker = new maplibregl.Marker({ element: el })
-          .setLngLat([v.longitude, v.latitude]);
+      // --- Cursor change on hover ---
+      map.on("mouseenter", CIRCLE_LAYER_ID, () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", CIRCLE_LAYER_ID, () => {
+        map.getCanvas().style.cursor = "";
+      });
 
-        if (showPopups) {
-          const popup = new maplibregl.Popup({ offset: 12, closeButton: false });
-          popup.setHTML(buildPopupHTML({
-            village_id: v.village_id,
-            name: v.name,
-            risk_level: v.risk_level,
-            risk_score: v.risk_score,
-            population: v.population,
-          }));
+      // --- Click-to-popup ---
+      if (showPopups) {
+        // Close any existing popup
+        const closePopup = () => {
+          if (popupRef.current) {
+            popupRef.current.remove();
+            popupRef.current = null;
+          }
+        };
+
+        map.on("click", CIRCLE_LAYER_ID, (e) => {
+          if (!e.features || e.features.length === 0) return;
+          const props = e.features[0].properties;
+          const coords = e.features[0].geometry.coordinates.slice();
+
+          closePopup();
+
+          const popup = new maplibregl.Popup({ offset: 12, closeButton: false })
+            .setLngLat(coords)
+            .setHTML(buildPopupHTML({
+              village_id: props.village_id,
+              name: props.name,
+              risk_level: props.risk_level,
+              risk_score: props.risk_score,
+              population: props.population,
+            }))
+            .addTo(map);
+
+          popupRef.current = popup;
 
           // Wire navigate button after popup renders
           popup.on("open", () => {
             const btn = popup.getElement()?.querySelector("#popup-navigate-btn");
             if (btn) {
-              btn.addEventListener("click", () => handlePopupNavigate(v.village_id));
+              btn.addEventListener("click", () => handlePopupNavigate(props.village_id));
               btn.addEventListener("mouseenter", () => { btn.style.background = "#2A3040"; });
               btn.addEventListener("mouseleave", () => { btn.style.background = "#1A1E28"; });
             }
           });
+        });
 
-          marker.setPopup(popup);
-        }
-
-        marker.addTo(map);
-        markersRef.current.push({ marker, village: v });
-      });
-
-      // Apply initial filters
-      markersRef.current.forEach(({ marker, village }) => {
-        const visible =
-          activeRiskLevels.has(village.risk_level) &&
-          (district === null || village.district === district);
-        marker.getElement().style.visibility = visible ? "visible" : "hidden";
-        marker.getElement().style.pointerEvents = visible ? "auto" : "none";
-      });
+        // Close popup when clicking empty map area
+        map.on("click", (e) => {
+          if (!e.defaultPrevented) closePopup();
+        });
+      }
     });
 
     mapRef.current = map;
     if (externalMapRef) externalMapRef.current = map;
 
     return () => {
+      if (popupRef.current) {
+        popupRef.current.remove();
+        popupRef.current = null;
+      }
       if (mapRef.current) {
-        markersRef.current.forEach(({ marker }) => marker.remove());
-        markersRef.current = [];
         mapRef.current.remove();
         mapRef.current = null;
         if (externalMapRef) externalMapRef.current = null;
